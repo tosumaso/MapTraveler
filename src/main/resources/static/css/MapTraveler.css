@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+.modal {
+	display:none;
+	position: fixed;
+	z-index: 1;  /* 数値が高いほど重なっている要素が手前にくる*/
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,0.5); /* rgba(red,green,blue,opacity)：色を三原色で表記、opacityは0から1で透明度を変更可能*/
+}
+
+.modal-content {
+	background-color: white;
+	width: 50vw;
+	height: 40%;
+	margin: 20% auto;
+}
+
+.modal-body {
+	height: 100%;
+	position: relative;
+	text-align: center;
+}
+
+.modal-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.button-wrap {
+	text-align: center;
+	position: absolute;	
+	width: 100%;
+}
+
+.search {
+	display: flex;
+}

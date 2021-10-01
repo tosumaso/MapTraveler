@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="|${post.title}について|"></title>
+</head>
+<body>
+	<div class="main-content">
+		<div th:text="${post.title}"></div>
+		<div th:text="|経度: ${post.map.lat}|"></div>
+		<div th:text="|緯度: ${post.map.lng}|"></div>
+	</div>
+</body>
+</html>
