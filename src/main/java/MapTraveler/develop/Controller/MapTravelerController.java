@@ -1,21 +1,28 @@
 package MapTraveler.develop.Controller;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import MapTraveler.develop.Auth.ApplicationUser;
+import MapTraveler.develop.Entity.Image;
 import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Form.PostForm;
+import MapTraveler.develop.Repository.ImageRepository;
 import MapTraveler.develop.Repository.MapRepository;
 import MapTraveler.develop.Repository.PostRepository;
 import MapTraveler.develop.Repository.UserRepository;
@@ -32,6 +39,9 @@ public class MapTravelerController {
 	@Autowired
 	PostRepository postRepository;
 	
+	@Autowired
+	ImageRepository imageRepository;
+	
 	@GetMapping("/index")
 	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model) {
 		model.addAttribute("username", principal.getUsername()); //ユーザー名取得
@@ -45,23 +55,80 @@ public class MapTravelerController {
 		return markers;
 	}
 	
-	@PostMapping("/postMap") //マーカーを挿す座標とPostの内容を保存
-	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal, PostForm form) {
-		Map map = new Map(form.getLat(), form.getLng());
-		Post post = new Post(form.getTitle(), form.getContent(), form.getStar());
-		map.setPost(post);
-		post.setMap(map);
-		post.setUser(userRepository.findById(principal.getId()).get());
-		mapRepository.save(map);
-		return "redirect:/index";
+	@PostMapping("/postMap") //マーカーを挿す座標とPostの内容を保存(複数の画像を保存する場合)
+	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal, PostForm form, Model model) {
+		try {
+			Map map = new Map(form.getLat(), form.getLng());
+			Post post = new Post(form.getTitle(), form.getStar());
+			List<MultipartFile> files = form.getFiles();
+			List<String> images = new ArrayList<String>();
+			for (MultipartFile file : files) { //複数の画像を保存、画像のバイナリデータをListにしてthymeleafで表示
+				String fileName = StringUtils.cleanPath(file.getOriginalFilename()); //画像のパスを正規化
+				Image savedFile = new Image(fileName, file.getContentType(), file.getBytes());
+				savedFile.setPost(post);
+				post.getImages().add(savedFile); //postエンティティの参照にImageエンティティを追加
+				byte[] bytes = savedFile.getData(); //保存したImageエンティティのバイナリデータを取得
+			    images.add(Base64.getEncoder().encodeToString(bytes)); //バイナリデータを文字列にする
+			}
+		    model.addAttribute("images", images);
+			map.setPost(post);
+			post.setMap(map);
+			post.setUser(userRepository.findById(principal.getId()).get());
+			mapRepository.save(map); //mapエンティティを保存、cascadeType.Persistでpostエンティティも保存、cascadeType.Persistでimageエンティティも保存される
+		    return "redirect:/index";
+		} catch (Exception e) {
+			System.out.println("エラー");
+			return "redirect:/index";
+		}
+		
 	}
 	
-	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する
+	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する(画像が複数ある場合)
 	public String getPostMap(int id, Model model) {
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
+		List<Image> images = imageRepository.findByPost(post);
+		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
+		model.addAttribute("images", files);
 		return "/post";
 	}
+	
+//	@PostMapping("/postMap") //マーカーを挿す座標とPostの内容を保存
+//	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal, PostForm form, Model model) {
+//		try {
+//			Map map = new Map(form.getLat(), form.getLng());
+//			Post post = new Post(form.getTitle(), form.getStar());
+//			
+//			MultipartFile file = form.getFile();
+//			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//			Image savedFile = new Image(fileName, file.getContentType(), file.getBytes());
+//			savedFile.setPost(post);
+////			imageRepository.save(savedFile); mapがpostをcascade.persistし、postがimageをcascade.persistするためimageRepository経由で保存しない
+//			byte[] bytes = savedFile.getData(); 
+//		    String image =  Base64.getEncoder().encodeToString(bytes);
+//		    model.addAttribute("image", image);
+//		    
+//			map.setPost(post);
+//			post.setMap(map);
+//			post.setImage(savedFile);
+//			post.setUser(userRepository.findById(principal.getId()).get());
+//			mapRepository.save(map);
+//		    return "redirect:/index";
+//		} catch (Exception e) {
+//			System.out.println("エラー");
+//			return "redirect:/index";
+//		}
+//		
+//	}
+//	
+//	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する
+//	public String getPostMap(int id, Model model) {
+//		Post post =postRepository.findById(id).get();
+//		
+//		model.addAttribute("post", post);
+//		model.addAttribute("image", Base64.getEncoder().encodeToString(imageRepository.findById(post.getImage().getId()).get().getData()));
+//		return "/post";
+//	}
 	
 	@GetMapping("/search")
 	@ResponseBody
@@ -72,14 +139,3 @@ public class MapTravelerController {
 	}
 	
 }
-
-//ログイン中のユーザー情報取得
-//1つめ
-//Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-//System.out.println(auth.getName());
-//2つめ
-//public String getTest(Principal principal) { Principalオブジェクトを注入、認証されているユーザー情報オブジェクト
-//	String name = principal.getName(); プリンシパルに格納されているユーザー名を取得
-//	System.out.println(name);
-//	return "index";
-//}

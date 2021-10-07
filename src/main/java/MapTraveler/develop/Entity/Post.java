@@ -1,5 +1,9 @@
 package MapTraveler.develop.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,9 +30,6 @@ public class Post {
 	@Column(name="title", nullable=false)
 	private String title;
 	
-	@Column(name="content", nullable=false)
-	private String content;
-	
 	@Column(name="star", nullable=false)
 	private Integer star;
 	
@@ -38,21 +40,25 @@ public class Post {
 	@OneToOne
 	@JoinColumn(name="map_id", referencedColumnName="id")
 	private Map map;
+	
+//	@OneToOne(mappedBy="post", cascade=CascadeType.PERSIST)
+//	private Image image;
+	
+	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
+	private List<Image> images = new ArrayList<Image>();
+//	
+//	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
+//	private List<Text> texts = new ArrayList<Text>();
 
-	
-	
 	public Post() {
 		
 	}
 
-	public Post(String title, String content, Integer star) {
+	public Post(String title, Integer star) {
 		super();
 		this.title = title;
-		this.content = content;
 		this.star = star;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -68,14 +74,6 @@ public class Post {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public Integer getStar() {
@@ -101,6 +99,31 @@ public class Post {
 	public void setMap(Map map) {
 		this.map = map;
 	}
+
+//	public Image getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(Image image) {
+//		this.image = image;
+//	}
+
+	
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+//
+//	public List<Text> getTexts() {
+//		return texts;
+//	}
+//
+//	public void setTexts(List<Text> texts) {
+//		this.texts = texts;
+//	}
 	
 	
 }

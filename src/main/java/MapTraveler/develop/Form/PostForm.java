@@ -1,12 +1,17 @@
 package MapTraveler.develop.Form;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class PostForm {
 
 	private Double lat;
 	private Double lng;
 	private String title;
-	private String content;
 	private Integer star;
+	private List<String> texts;
+	private List<MultipartFile> files; //複数の画像をList<MultipartFile>で取得
 	
 	
 	public Double getLat() {
@@ -27,17 +32,25 @@ public class PostForm {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+
 	public Integer getStar() {
 		return star;
 	}
 	public void setStar(Integer star) {
 		this.star = star;
 	}
+	public List<String> getTexts() {
+		return texts;
+	}
+	public void setTexts(List<String> texts) {
+		this.texts = texts;
+	}
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+	
 	
 }
