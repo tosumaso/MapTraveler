@@ -16,11 +16,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="post")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 public class Post {
 
 	@Id
@@ -34,21 +35,19 @@ public class Post {
 	private Integer star;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id", referencedColumnName="id")
+	@JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+	@JsonManagedReference //PostがシリアライズしたときUserもシリアライズする(参照先のデータを持てる)
 	private User user;
 	
 	@OneToOne
-	@JoinColumn(name="map_id", referencedColumnName="id")
+	@JoinColumn(name="map_id", referencedColumnName="id", nullable=false)
 	private Map map;
-	
-//	@OneToOne(mappedBy="post", cascade=CascadeType.PERSIST)
-//	private Image image;
 	
 	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
 	private List<Image> images = new ArrayList<Image>();
-//	
-//	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
-//	private List<Text> texts = new ArrayList<Text>();
+	
+	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
+	private List<Text> texts = new ArrayList<Text>();
 
 	public Post() {
 		
@@ -99,15 +98,6 @@ public class Post {
 	public void setMap(Map map) {
 		this.map = map;
 	}
-
-//	public Image getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(Image image) {
-//		this.image = image;
-//	}
-
 	
 	public List<Image> getImages() {
 		return images;
@@ -116,14 +106,13 @@ public class Post {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-//
-//	public List<Text> getTexts() {
-//		return texts;
-//	}
-//
-//	public void setTexts(List<Text> texts) {
-//		this.texts = texts;
-//	}
-	
+
+	public List<Text> getTexts() {
+		return texts;
+	}
+
+	public void setTexts(List<Text> texts) {
+		this.texts = texts;
+	}
 	
 }

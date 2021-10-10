@@ -18,6 +18,9 @@
 				<div th:text="${post.title}"></div>
 				<div th:text="|経度: ${post.map.lat}|"></div>
 				<div th:text="|緯度: ${post.map.lng}|"></div>
+				<th:block th:each="text : ${texts}">
+					<p th:text="${text.content}"></p>
+				</th:block>
 				<th:block th:each="image : ${images}">
 					<img th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
 				</th:block>

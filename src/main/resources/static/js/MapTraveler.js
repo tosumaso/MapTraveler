@@ -58,7 +58,7 @@ function initMap() {
 
 	function showCurrentMarkers(places) { //全て or 検索結果のマーカーを表示(配列を引数にとり、表示対象に応じてマーカーを表示できる)
 		let currentWindow;
-
+		
 		if (markers) { //マーカーがすでに立っていれば一度全てのマーカーを非表示にする
 			for (let i = 0; i < markers.length; i++) {
 				markers[i].setMap(null)
@@ -71,7 +71,7 @@ function initMap() {
 				position: { lat: m.lat, lng: m.lng },
 				map: map
 			})
-
+			
 			markers.push(marker) //作成したマーカーをグローバルスコープで管理
 
 			marker.addListener("click", () => {

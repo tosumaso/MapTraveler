@@ -7,65 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//package MapTraveler.develop.Entity;
-//
-//import java.io.File;
-//
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.ManyToOne;
-//import javax.persistence.Table;
-//
-//@Entity
-//@Table(name="image")
-////@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-//public class Image {
-//
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	private Integer id;
-//	
-//	@Column(name="file", nullable=false)
-//	private File file;
-//	
-//	@ManyToOne
-//	@JoinColumn(name="post_id", referencedColumnName="id")
-//	private Post post;
-//
-//	public Integer getId() {
-//		return id;
-//	}
-//
-//	public void setId(Integer id) {
-//		this.id = id;
-//	}
-//
-//	public File getFile() {
-//		return file;
-//	}
-//
-//	public void setFile(File file) {
-//		this.file = file;
-//	}
-//
-//	public Post getPost() {
-//		return post;
-//	}
-//
-//	public void setPost(Post post) {
-//		this.post = post;
-//	}
-//	
-//	
-//	
-//}
 @Entity
 @Table(name = "image")
 public class Image {
@@ -74,18 +18,18 @@ public class Image {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   
-  @Column(name="name")
+  @Column(name="name", nullable=false)
   private String name;
   
-  @Column(name="type")
+  @Column(name="type", nullable=false)
   private String type;
   
-  @Lob // ポイント2: @Lobとを以下のようにつける(@Lobはサイズが大きいデータのカラムにつけるみたい。
-  @Column(name = "data")
+  @Lob // ポイント2: @Lobを以下のようにつける(@Lobはサイズが大きいデータのカラムにつけるみたい。
+  @Column(name = "data", nullable=false)
   private byte[] data;
   
-  @OneToOne
-  @JoinColumn(name="post_id", referencedColumnName="id")
+  @ManyToOne
+  @JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
   private Post post;
   
   public Image(String name, String type, byte[] data) {

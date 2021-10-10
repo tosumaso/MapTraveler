@@ -21,6 +21,7 @@ import MapTraveler.develop.Auth.ApplicationUser;
 import MapTraveler.develop.Entity.Image;
 import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
+import MapTraveler.develop.Entity.Text;
 import MapTraveler.develop.Form.PostForm;
 import MapTraveler.develop.Repository.ImageRepository;
 import MapTraveler.develop.Repository.MapRepository;
@@ -70,7 +71,14 @@ public class MapTravelerController {
 				byte[] bytes = savedFile.getData(); //保存したImageエンティティのバイナリデータを取得
 			    images.add(Base64.getEncoder().encodeToString(bytes)); //バイナリデータを文字列にする
 			}
+			List<String> contents = form.getTexts();
+			for (String content : contents) {
+				Text text = new Text(content);
+				text.setPost(post);
+				post.getTexts().add(text);
+			}
 		    model.addAttribute("images", images);
+		    model.addAttribute("texts", contents);
 			map.setPost(post);
 			post.setMap(map);
 			post.setUser(userRepository.findById(principal.getId()).get());
@@ -90,6 +98,8 @@ public class MapTravelerController {
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", files);
+		List<Text> texts = post.getTexts();
+		model.addAttribute("texts", texts);
 		return "/post";
 	}
 	

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Table(name="user")
@@ -27,6 +29,7 @@ public class User {
 	private String password;
 	
 	@OneToMany(mappedBy="user")
+	@JsonBackReference //UserがSerializeされたときPostはシリアライズしない(外部参照先のデータを持たない)
 	private List<Post> posts = new ArrayList<Post>();
 	
 
