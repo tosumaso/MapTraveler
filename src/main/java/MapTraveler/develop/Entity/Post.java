@@ -1,7 +1,7 @@
 package MapTraveler.develop.Entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,11 +43,11 @@ public class Post {
 	@JoinColumn(name="map_id", referencedColumnName="id", nullable=false)
 	private Map map;
 	
-	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
-	private List<Image> images = new ArrayList<Image>();
+	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST) //DBとのSessionが切れた後にEntityのJsonを返す。コレクションをSetにし、FetchType.EAGERで親エンティティ取得時に子の参照先Entityも読み込む
+	private Set<Image> images = new HashSet<Image>();
 	
 	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
-	private List<Text> texts = new ArrayList<Text>();
+	private Set<Text> texts = new HashSet<Text>();
 
 	public Post() {
 		
@@ -99,20 +99,20 @@ public class Post {
 		this.map = map;
 	}
 	
-	public List<Image> getImages() {
+	public Set<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(List<Image> images) {
+	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
 
-	public List<Text> getTexts() {
+	public Set<Text> getTexts() {
 		return texts;
 	}
 
-	public void setTexts(List<Text> texts) {
+	public void setTexts(Set<Text> texts) {
 		this.texts = texts;
-	}
+	}	
 	
 }

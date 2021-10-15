@@ -9,6 +9,9 @@
 	crossorigin="anonymous">
 <link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
 <script th:src="@{/js/MapTraveler.js}"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script th:src="@{/js/websocket.js}"></script>
 <title th:text="|${post.title}について|"></title>
 </head>
 <body>
@@ -24,8 +27,33 @@
 				<th:block th:each="image : ${images}">
 					<img th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
 				</th:block>
-				
+
+				<div>
+					<form class="form-inline">
+						<div class="form-group">
+							<input th:value="${post.id}" id="post-id" type="hidden">
+							<input th:value="${post.user.id}" id="user-id" type="hidden">
+							<input type="text" id="comment"
+								class="form-control" placeholder="Hello">
+						</div>
+						<button id="send-comment" class="btn btn-default" type="submit">Send</button>
+					</form>
+				</div>
+				<table id="conversation" class="table table-striped">
+					<thead>
+						<tr>
+							<th>Messages</th>
+						</tr>
+					</thead>
+					<tbody id="greetings">
+						<th:block th:each="comment :${comments}" th:if="${comment.post.id == post.id}"> <!-- チャット画面取得時、dbの既存のメッセージを一覧表示する -->
+							<tr><td th:text="${comment.user.username}"></td></tr>
+							<tr><td th:text="${comment.content}"></td></tr>
+						</th:block> <!--追加されたメッセージはwebsocket通信の時点ではDOMで描画され、リロードでページを更新するとthymeleafでDBから取得され描画される -->
+					</tbody>
+				</table>
 			</div>
+			
 			<div class="col-3">
 				<p>あいうえお</p>
 			</div>

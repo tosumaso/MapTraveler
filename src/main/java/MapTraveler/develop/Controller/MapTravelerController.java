@@ -3,6 +3,7 @@ package MapTraveler.develop.Controller;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Entity.Text;
 import MapTraveler.develop.Form.PostForm;
+import MapTraveler.develop.Repository.CommentRepository;
 import MapTraveler.develop.Repository.ImageRepository;
 import MapTraveler.develop.Repository.MapRepository;
 import MapTraveler.develop.Repository.PostRepository;
@@ -42,6 +44,9 @@ public class MapTravelerController {
 	
 	@Autowired
 	ImageRepository imageRepository;
+	
+	@Autowired
+	CommentRepository commentRepository;
 	
 	@GetMapping("/index")
 	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model) {
@@ -98,47 +103,11 @@ public class MapTravelerController {
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", files);
-		List<Text> texts = post.getTexts();
+		Set<Text> texts = post.getTexts();
 		model.addAttribute("texts", texts);
+		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
 	}
-	
-//	@PostMapping("/postMap") //マーカーを挿す座標とPostの内容を保存
-//	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal, PostForm form, Model model) {
-//		try {
-//			Map map = new Map(form.getLat(), form.getLng());
-//			Post post = new Post(form.getTitle(), form.getStar());
-//			
-//			MultipartFile file = form.getFile();
-//			String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//			Image savedFile = new Image(fileName, file.getContentType(), file.getBytes());
-//			savedFile.setPost(post);
-////			imageRepository.save(savedFile); mapがpostをcascade.persistし、postがimageをcascade.persistするためimageRepository経由で保存しない
-//			byte[] bytes = savedFile.getData(); 
-//		    String image =  Base64.getEncoder().encodeToString(bytes);
-//		    model.addAttribute("image", image);
-//		    
-//			map.setPost(post);
-//			post.setMap(map);
-//			post.setImage(savedFile);
-//			post.setUser(userRepository.findById(principal.getId()).get());
-//			mapRepository.save(map);
-//		    return "redirect:/index";
-//		} catch (Exception e) {
-//			System.out.println("エラー");
-//			return "redirect:/index";
-//		}
-//		
-//	}
-//	
-//	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する
-//	public String getPostMap(int id, Model model) {
-//		Post post =postRepository.findById(id).get();
-//		
-//		model.addAttribute("post", post);
-//		model.addAttribute("image", Base64.getEncoder().encodeToString(imageRepository.findById(post.getImage().getId()).get().getData()));
-//		return "/post";
-//	}
 	
 	@GetMapping("/search")
 	@ResponseBody

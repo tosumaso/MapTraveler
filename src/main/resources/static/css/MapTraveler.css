@@ -63,3 +63,7 @@ html, body {
 .col-9, .col-3 {
 	border: 1px solid red;
 }
+
+#conversation {
+	margin-bottom: 20px;
+}

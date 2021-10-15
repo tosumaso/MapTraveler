@@ -32,6 +32,9 @@ public class User {
 	@JsonBackReference //UserがSerializeされたときPostはシリアライズしない(外部参照先のデータを持たない)
 	private List<Post> posts = new ArrayList<Post>();
 	
+	@OneToMany(mappedBy="user")
+	@JsonBackReference
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	public Integer getId() {
 		return id;
@@ -63,6 +66,14 @@ public class User {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	
