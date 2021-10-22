@@ -7,16 +7,18 @@
 </head>
 <body>
 	<div class="newUserContainer">
-		<form th:action="@{/newUser}" method="post">
-		<p>
-			<label for="username">ユーザー名</label>
-			<input id="username" name="username" type="text">
-		</p>
-		<p>
-			<label for="password">パスワード</label>
-			<input id="password" name="password" type="password">
-		</p>
-		<input type="submit" value="送信">
+		<form th:action="@{/newUser}" th:object="${userRegistrationForm}" method="post">
+			<div>
+				<label for="username">ユーザー名</label> <input id="username"
+					name="username" type="text">
+			</div>
+			<div>
+				<label for="password">パスワード</label> <input id="password"
+					name="password" type="password">
+			</div>
+			<input type="submit" value="送信">
+			<span  th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span> <!-- エラーメッセージは基本formタグの中 -->
+			<span  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 		</form>
 	</div>
 </body>

@@ -1,6 +1,6 @@
 let locations = [] //全てのマーカーの位置情報
 let markers = [] //markerオブジェクトの配列
-let results =[]; //検索結果のmapオブジェクトを一時保存する
+let results = []; //検索結果のmapオブジェクトを一時保存する
 
 function initMap() {
 	const mapEle = document.querySelector("#map");
@@ -21,7 +21,7 @@ function initMap() {
 		showModal(event.latLng);
 	})
 
-	function showModal(latLng) { 
+	function showModal(latLng) {
 
 		const modal = document.querySelector("#modal"); //モーダル画面の背景
 		const closeBtn = document.querySelector("#closeBtn"); //モーダル画面を閉じるボタン
@@ -58,7 +58,7 @@ function initMap() {
 
 	function showCurrentMarkers(places) { //全て or 検索結果のマーカーを表示(配列を引数にとり、表示対象に応じてマーカーを表示できる)
 		let currentWindow;
-		
+
 		if (markers) { //マーカーがすでに立っていれば一度全てのマーカーを非表示にする
 			for (let i = 0; i < markers.length; i++) {
 				markers[i].setMap(null)
@@ -71,7 +71,7 @@ function initMap() {
 				position: { lat: m.lat, lng: m.lng },
 				map: map
 			})
-			
+
 			markers.push(marker) //作成したマーカーをグローバルスコープで管理
 
 			marker.addListener("click", () => {
@@ -101,9 +101,10 @@ function initMap() {
 				throw new Error("エラー");
 			}
 		}).then(data => {
+			console.log(data)
 			data.forEach(d => {
-				const result = locations.filter(location => location.id === d.id); //検索結果のmapを取得
-				results.push(result[0]) 
+				const result = locations.filter(location => location.id === d.map.id); //検索結果のmapを取得
+				results.push(result[0])
 			})
 			showCurrentMarkers(results)
 		}).catch(error => alert(error));
@@ -152,4 +153,34 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("star-input").value = index;
 		})
 	}
+
+	const multiplebox = document.getElementById("multiple-contents");
+	const textarea = document.querySelector('.multiple-texts');
+	const clientHeight = textarea.clientHeight;
+
+	autoTextarea();
+
+	//画像選択したときのテキストボックス、画像追加ボックスを追加
+	multiplebox.addEventListener('change', (e) => {
+		if (e.target.tagName === "INPUT") {
+			multiplebox.insertAdjacentHTML('beforeend', `<textarea  name="texts" class="multiple-texts"></textarea>`);
+			multiplebox.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
+			autoTextarea();
+		}
+
+	})
+
+	//textareaの高さを自動調整
+	function autoTextarea() {
+		multiplebox.addEventListener('input', (e) => {
+			if (e.target.tagName === "TEXTAREA") {
+				e.target.style.height = clientHeight + 'px';
+				let scroll = e.target.scrollHeight;
+				e.target.style.height = scroll + 'px';
+			}
+		})
+	}
+
+
+
 })

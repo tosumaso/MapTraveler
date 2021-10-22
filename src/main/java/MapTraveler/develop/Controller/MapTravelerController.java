@@ -113,6 +113,7 @@ public class MapTravelerController {
 	@ResponseBody
 	public List<Post> searchByKeyword(@RequestParam(name="keyword") String keyword) {
 		String escapedKeyword = HtmlUtils.htmlEscape(keyword);
+		System.out.println(escapedKeyword);
 		List<Post> posts = postRepository.findByKeywordLike(escapedKeyword);
 		return posts;
 	}
