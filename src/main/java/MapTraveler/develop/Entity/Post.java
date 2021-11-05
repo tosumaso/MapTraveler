@@ -1,7 +1,7 @@
 package MapTraveler.develop.Entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,13 +16,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="post")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
-public class Post {
+public class Post{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -43,11 +44,13 @@ public class Post {
 	@JoinColumn(name="map_id", referencedColumnName="id", nullable=false)
 	private Map map;
 	
-	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST) //DBとのSessionが切れた後にEntityのJsonを返す。コレクションをSetにし、FetchType.EAGERで親エンティティ取得時に子の参照先Entityも読み込む
-	private Set<Image> images = new HashSet<Image>();
+	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
+	@JsonIgnore
+	private List<Image> images = new ArrayList<Image>();
 	
 	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
-	private Set<Text> texts = new HashSet<Text>();
+	@JsonIgnore
+	private List<Text> texts = new ArrayList<Text>();
 
 	public Post() {
 		
@@ -99,20 +102,24 @@ public class Post {
 		this.map = map;
 	}
 	
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Set<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
-	public Set<Text> getTexts() {
+	public List<Text> getTexts() {
 		return texts;
 	}
 
-	public void setTexts(Set<Text> texts) {
+	public void setTexts(List<Text> texts) {
 		this.texts = texts;
 	}	
 	
+//	@Override
+//	public int compareTo(Post p) {
+//			return this.id - p.id;
+//	}
 }

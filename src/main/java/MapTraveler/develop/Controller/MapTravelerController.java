@@ -3,7 +3,6 @@ package MapTraveler.develop.Controller;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import MapTraveler.develop.Entity.Image;
 import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Entity.Text;
+import MapTraveler.develop.Entity.User;
 import MapTraveler.develop.Form.PostForm;
 import MapTraveler.develop.Repository.CommentRepository;
 import MapTraveler.develop.Repository.ImageRepository;
@@ -90,20 +90,20 @@ public class MapTravelerController {
 			mapRepository.save(map); //mapエンティティを保存、cascadeType.Persistでpostエンティティも保存、cascadeType.Persistでimageエンティティも保存される
 		    return "redirect:/index";
 		} catch (Exception e) {
-			System.out.println("エラー");
+			System.out.println(e);
 			return "redirect:/index";
 		}
 		
 	}
 	
 	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する(画像が複数ある場合)
-	public String getPostMap(int id, Model model) {
+	public String getPostMap(Integer id, Model model) {
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", files);
-		Set<Text> texts = post.getTexts();
+		List<Text> texts = post.getTexts();
 		model.addAttribute("texts", texts);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
@@ -116,6 +116,24 @@ public class MapTravelerController {
 		System.out.println(escapedKeyword);
 		List<Post> posts = postRepository.findByKeywordLike(escapedKeyword);
 		return posts;
+	}
+	
+	@GetMapping("/mypage")
+	public String getMypage(@AuthenticationPrincipal ApplicationUser principal, Model model) {
+		User user = userRepository.findById(principal.getId()).get();
+		model.addAttribute("user", user);
+		List<String> images = new ArrayList<String>();
+		for (Post post: user.getPosts()) {
+			List<Image> image = post.getImages();
+			for (int i=0; i< image.size(); i++) {
+				if (i == 0) {
+					images.add(Base64.getEncoder().encodeToString(image.get(i).getData())); //画像をDBから取り出してthymeleafで表示したい
+				}
+			}
+		}
+		model.addAttribute("images", images);
+		return "mypage";
+		
 	}
 	
 }

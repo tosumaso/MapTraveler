@@ -22,20 +22,24 @@ function initMap() {
 	})
 
 	function showModal(latLng) {
-
+		const body = document.body;
 		const modal = document.querySelector("#modal"); //モーダル画面の背景
 		const closeBtn = document.querySelector("#closeBtn"); //モーダル画面を閉じるボタン
 
 		modal.style.display = "block"; //モーダル表示ボタンが押されたら#modalのdivのstyle属性のdisplayプロパティにblockを追加
 		document.getElementById("lat").value = latLng.lat();
 		document.getElementById("lng").value = latLng.lng();
+		
+		body.classList.add("fixed");
 
 		closeBtn.addEventListener("click", () => {
 			modal.style.display = "none"; //閉じるボタンが押されたらモーダル背景のdivタグにdisplay:noneを設定して見えなくする
+			body.classList.remove("fixed");
 		})
 		window.addEventListener('click', (e) => { //閉じるボタンの他にモーダル背景がクリックされたらモーダルを閉じる
 			if (e.target === modal) { //クリックされた要素が#modalのdiv要素なら
 				modal.style.display = 'none';
+				body.classList.remove("fixed");
 			}
 		});
 	}
@@ -159,16 +163,30 @@ document.addEventListener("DOMContentLoaded", () => {
 	const clientHeight = textarea.clientHeight;
 
 	autoTextarea();
+	closeContent();
 
 	//画像選択したときのテキストボックス、画像追加ボックスを追加
 	multiplebox.addEventListener('change', (e) => {
 		if (e.target.tagName === "INPUT") {
-			multiplebox.insertAdjacentHTML('beforeend', `<textarea  name="texts" class="multiple-texts"></textarea>`);
-			multiplebox.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
-			autoTextarea();
+			const eachContent =document.createElement("div");
+			eachContent.setAttribute("class","each-content");
+			multiplebox.appendChild(eachContent);
+			eachContent.insertAdjacentHTML('beforeend', `<textarea  name="texts" class="multiple-texts"></textarea>`);
+			eachContent.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
+			eachContent.insertAdjacentHTML('beforeend', `<button type="button" class="btn-close close-each-content" aria-label="Close"></button>`)
 		}
 
 	})
+	
+	function closeContent(){
+		multiplebox.addEventListener('click',(e) => {
+			const ele = e.target;
+			if (ele.className === "btn-close close-each-content"){
+				const eachContent =ele.parentNode;
+				multiplebox.removeChild(eachContent);
+			}
+		})
+	}
 
 	//textareaの高さを自動調整
 	function autoTextarea() {

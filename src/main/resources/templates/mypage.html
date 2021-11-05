@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
+<script th:src="@{/js/MapTraveler.js}"></script>
+<title th:text="|${user.username}のページ|"></title>
+<link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+</head>
+<body>
+	<div class="wrapper mypage-wrapper">
+		<div class="global-header home-header">
+			<img src="https://images.cooltext.com/5560340.png" width="467"
+				height="99" alt="MapTraveler" class="d-block mx-auto" />
+		</div>
+		<div class="container mypage-container">
+			<div class="row pt-4 mb-4"
+				style="height: 10%; margin-left: 0; margin-right: 0;">
+				<div class="col-2 mypage-head">マイページ</div>
+			</div>
+			<div class="row"
+				style="height: 90%; margin-left: 0; margin-right: 0;">
+				<div class="col-10 offset-2 mypage-tab">
+					<ul class="nav nav-tabs justify-content-center nav-fill pb-3"
+						role="tablist">
+						<li class="nav-item"><a class="nav-link active"
+							id="item1-tab" data-toggle="tab" href="#post" role="tab"
+							aria-controls="item1" aria-selected="true">投稿</a></li>
+						<li class="nav-item"><a class="nav-link" id="item2-tab"
+							data-toggle="tab" href="#comment" role="tab">コメント</a></li>
+						<li class="nav-item"><a class="nav-link" id="item3-tab"
+							data-toggle="tab" href="#like" role="tab">いいね</a></li>
+					</ul>
+					<div class="tab-content">
+						<!-- nav-linkのhref="#~"とtab-content内のidは一致させる -->
+						<div class="tab-pane show active" id="post" role="tabpanel" aria-labelledby="item1-tab">
+							<th:block th:each="post, pt : ${user.posts}" th:if="${user.posts}">
+								<div class="mypage-detail">
+									<div class="mypage-picwrap">
+									<th:block th:each="image, it : ${images}">
+										<img th:if="${pt.count == it.count}" th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
+									</th:block>
+									</div>
+									<div class="mypage-detailwrap">
+										<p th:text="${post.title}"></p>
+										<div th:text="${user.username}"></div>
+									</div>
+								</div>
+							</th:block>
+						</div>
+						<div class="tab-pane" id="comment" role="tabpanel" aria-labelledby="item2-tab">
+							<th:block th:each="comment : ${user.comments}" th:if="${user.comments}">
+								<div th:text="${comment.content}"></div>
+							</th:block>
+						</div>
+						<div class="tab-pane" id="like" role="tabpanel"
+							aria-labelledby="item3-tab">いいね一覧</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="global-footer container-fluid text-center">
+			<p class="powered-by pt-3">Powered By Spring Framework</p>
+			<p class="rights-reserved">Copyright© MapTraveler All Rights
+				Reserved</p>
+		</div>
+	</div>
+</body>
+</html>

@@ -3,23 +3,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Register new User !</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
+<link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
+<title>Register new user!</title>
+<link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
 </head>
 <body>
-	<div class="newUserContainer">
-		<form th:action="@{/newUser}" th:object="${userRegistrationForm}" method="post">
-			<div>
-				<label for="username">ユーザー名</label> <input id="username"
-					name="username" type="text">
+	<div class="global-header">
+		<img src="https://images.cooltext.com/5560340.png" width="467"
+			height="99" alt="MapTraveler" class="d-block mx-auto" />
+	</div>
+
+	<div class="container-fluid loginbackground">
+	<p class="text-center pt-3">新規ユーザー登録</p>
+		<form class="form-horizontal" method="post" action="/newUser" th:object="${userRegistrationForm}">
+			<div class="form-group">
+				<div class="row pt-3 mb-3">
+					<!-- 要素を横並びにする -->
+					<!-- 画面幅によって中途半端なテキストの折り返しを防ぐために<span>で改行しないところを囲む -->
+					<label class="col-sm-2 control-label offset-sm-2" for="username">ユーザー名<span>(4文字以上10文字以下)</span></label>
+					<div class="col-sm-4 offset-sm-2">
+						<input type="text" class="form-control" id="username"
+							name="username">
+					</div>
+				</div>
 			</div>
-			<div>
-				<label for="password">パスワード</label> <input id="password"
-					name="password" type="password">
+
+			<div class="form-group">
+				<div class="row mb-3">
+					<label class="col-sm-2 control-label offset-sm-2" for="password">パスワード<span>(8文字以上20文字以下)</span></label>
+					<div class="col-sm-4 offset-sm-2">
+						<input type="password" class="form-control" id="password"
+							name="password">
+					</div>
+				</div>
 			</div>
-			<input type="submit" value="送信">
-			<span  th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span> <!-- エラーメッセージは基本formタグの中 -->
-			<span  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+
+			<div class="form-group">
+				<div class="text-center pb-4">
+					<button class="btn btn-lg btn-primary btn-block btn-success" type="submit">登録</button>
+				</div>
+			</div>
 		</form>
 	</div>
+	
+	<footer class="login-footer">
+		<div class="container-fluid text-center">
+			<p class="text-muted py-4">Copyright© MapTraveler All Rights Reserved</p>
+		</div>
+	</footer>
+	
 </body>
 </html>

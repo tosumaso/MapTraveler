@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="text")
-public class Text {
+public class Text{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Text {
 	@ManyToOne
 	@JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
 	private Post post;
-	
+
 	public Text() {
 		
 	}
@@ -55,6 +55,5 @@ public class Text {
 	public void setPost(Post post) {
 		this.post = post;
 	}
-	
-	
+
 }

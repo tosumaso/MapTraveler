@@ -26,7 +26,6 @@ public class SecurityController {
 	@GetMapping("/login")
 	public String getLogin(@RequestParam(required= false) String error,  Model model, HttpSession session) {
 		model.addAttribute("showErrorFlag", false);
-		model.addAttribute("showLogoutFlag", false);
 		if (error != null) {
 			if (session != null) {
 				AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -37,9 +36,6 @@ public class SecurityController {
 				}
 			}
 		} 
-//		else if (logout != null) {
-//			model.addAttribute("showLogoutFlag", true);
-//		}
 		return "login";
 	}
 	

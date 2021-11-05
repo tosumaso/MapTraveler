@@ -2,6 +2,14 @@
 
 html, body {
 	height: 100%;
+	background-color: #FFFFEE;
+}
+
+body.fixed { /* モーダル画面を表示したときに後ろの背景をスクロールさせない*/
+	position: fixed;
+	width:100%;
+	height:100%;
+	left:0;
 }
 
 textarea {
@@ -9,15 +17,141 @@ textarea {
 	overflow: hidden;
 }
 
-.container-fluid {
-	height: 100%;
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 1000px;
+span {
+	display: inline-block;
 }
 
 .row, .column {
 	height: 100%;
+}
+
+.global-header {
+	background-color: #ffffff;
+	min-height:100px;
+	border-bottom: 1px solid, #DDDBD6;
+	display:flex;
+	align-items: center;
+}
+
+.nav-item > a:hover {
+	opacity: 0.7;
+	color: #99CCFF;
+}
+
+.nav-item > a {
+	color: #000000;
+}
+
+.global-footer {
+	background-color: #808080;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	display:flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.rights-reserved .powered-by{
+	margin :0 auto; /* text-align:centerはブロック要素につけ、その中のインライン要素のみを中央にする。それ以外はmargin:0 autoで中央にする*/
+}
+
+.loginbackground {
+	background-color: #FFDDFF;
+}
+
+.wrapper {
+	min-height: 100vh;
+	position: relative;
+	padding-bottom: 150px;
+}
+
+.mypage-wrapper{ /*マイページではメインコンテンツとfooterの隙間をなくすためにpadding-bottomを上書きする*/
+	padding-bottom:100px;
+}
+
+.mypage-container{
+	height: calc(100vh - 200px);
+	border-right: solid 1px #808080;
+	border-left: solid 1px #808080;
+	background-color: #CCFFFF;
+	padding-bottom: 25px;
+	overflow-y: scroll;
+}
+
+.mypage-head {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: solid 1px #808080;
+	white-space: nowrap;
+	text-align:center;
+}
+
+.mypage-tab {
+	border: solid 1px #808080;
+	background-color: #FFFFFF;
+}
+
+.mypage-detail {
+	border: solid 1px #808080;
+	margin-bottom: 10px;
+	display: flex;
+	width:100%;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.mypage-picwrap {
+	
+	display:flex;
+	align-items: center;
+	padding: 5px;
+	margin-right:20px;
+}
+
+.mypage-picwrap img {
+	max-height: 400px;
+	max-width: 100%;
+	height: auto;
+	width :auto;
+}
+
+.mypage-detailswrap {
+	
+}
+
+.nav-tabs .nav-link.active{
+	background-color: #FFFFEE;
+}
+
+.search-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+	width: 100%;
+	
+}
+
+#keyword {
+	background-color: #DDDDDD;
+	border: solid 1px #DDDDDD;
+	height: 35px;
+}
+
+#submit-keyword {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	border: solid 1px #DDDDDD;
+	height: 35px;
+	width: 60px;
+}
+
+#map {
+	width: 1000x; 
+	height: 600px;
+	border: solid 1px #808080;
 }
 
 .modal {
@@ -37,11 +171,21 @@ textarea {
 	width: 50vw;
 	height: 100%;
 	margin: auto;
+	border-radius: 10px;
+	overflow: scroll;
+	/* IE, Edge 対応 */
+    -ms-overflow-style: none;
+    /* Firefox 対応 */
+    scrollbar-width: none;
+  }
+  /* Chrome, Safari 対応 */
+  .modal-content::-webkit-scrollbar {
+    display:none;
 }
 
 .modal-body {
-	height: 100%;
-	position: relative;
+	/* height: 100%;
+	position: relative;*/
 	text-align: center;
 }
 
@@ -52,18 +196,26 @@ textarea {
 	flex-direction: column;
 }
 
-.modal-form>#content {
+.modal-form > input, .modal-form > textarea, #stars {
+	margin-bottom: 10px;
+}
+
+/* .modal-form>#content {
 	resize: none;
 	width: 50%;
-}
+} */
 
 #stars>.star {
 	color: #FF9900;
 }
 
 .multiple-texts {
-	width:100%;
+	width:80%;
 	height: 75px;
+}
+
+.multiple-images {
+	width:80%;
 }
 
 .search {
