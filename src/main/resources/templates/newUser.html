@@ -21,6 +21,8 @@
 	<div class="container-fluid loginbackground">
 	<p class="text-center pt-3">新規ユーザー登録</p>
 		<form class="form-horizontal" method="post" action="/newUser" th:object="${userRegistrationForm}">
+			<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-center pt-3"></div>
+			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-center pt-3"></div>
 			<div class="form-group">
 				<div class="row pt-3 mb-3">
 					<!-- 要素を横並びにする -->

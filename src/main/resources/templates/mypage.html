@@ -43,6 +43,7 @@
 						<li class="nav-item"><a class="nav-link" id="item3-tab"
 							data-toggle="tab" href="#like" role="tab">いいね</a></li>
 					</ul>
+					
 					<div class="tab-content">
 						<!-- nav-linkのhref="#~"とtab-content内のidは一致させる -->
 						<div class="tab-pane show active" id="post" role="tabpanel" aria-labelledby="item1-tab">
@@ -54,17 +55,22 @@
 									</th:block>
 									</div>
 									<div class="mypage-detailwrap">
-										<p th:text="${post.title}"></p>
+										<p th:text="${post.title}" class="mypage-post-title"></p>
 										<div th:text="${user.username}"></div>
 									</div>
 								</div>
 							</th:block>
 						</div>
+						
 						<div class="tab-pane" id="comment" role="tabpanel" aria-labelledby="item2-tab">
 							<th:block th:each="comment : ${user.comments}" th:if="${user.comments}">
-								<div th:text="${comment.content}"></div>
-							</th:block>
+								<div class="mypage-comment-detail">
+									<p th:text="${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm:ss')}"></p>
+									<p th:text="${comment.content}"></p>
+								</div>
+							</th:block>	
 						</div>
+						
 						<div class="tab-pane" id="like" role="tabpanel"
 							aria-labelledby="item3-tab">いいね一覧</div>
 					</div>

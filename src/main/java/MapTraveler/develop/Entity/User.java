@@ -35,6 +35,10 @@ public class User {
 	@OneToMany(mappedBy="user")
 	@JsonBackReference
 	private List<Comment> comments = new ArrayList<Comment>();
+	
+	@OneToMany(mappedBy="user")
+	@JsonBackReference
+	private List<Favourite> likes = new ArrayList<Favourite>();
 
 	public Integer getId() {
 		return id;
@@ -75,6 +79,13 @@ public class User {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
+
+	public List<Favourite> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Favourite> likes) {
+		this.likes = likes;
+	}
 	
 }

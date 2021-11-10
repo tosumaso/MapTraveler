@@ -1,5 +1,9 @@
 package MapTraveler.develop.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "image")
@@ -31,6 +38,10 @@ public class Image {
   @ManyToOne
   @JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
   private Post post;
+  
+  @OneToMany(mappedBy="image", cascade=CascadeType.PERSIST)
+  @JsonBackReference
+  private List<Favourite> favourites = new ArrayList<Favourite>();
   
   public Image(String name, String type, byte[] data) {
     this.name = name;
@@ -81,7 +92,13 @@ public Post getPost() {
 public void setPost(Post post) {
 	this.post = post;
 }
-  
-  
+
+public List<Favourite> getFavourites() {
+	return favourites;
+}
+
+public void setFavourites(List<Favourite> favourites) {
+	this.favourites = favourites;
+}
 
 }

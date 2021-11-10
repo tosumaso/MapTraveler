@@ -1,6 +1,5 @@
 package MapTraveler.develop.Entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,24 +11,38 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "comment")
-public class Comment extends BaseTimeEntity{
+@Table(name="favourite")
+public class Favourite {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column(name = "content", nullable = false)
-	private String content;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name="user_id", referencedColumnName="id")
 	@JsonManagedReference
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name="post_id", referencedColumnName="id")
+	@JsonManagedReference
 	private Post post;
+	
+	@ManyToOne
+	@JoinColumn(name="image_id", referencedColumnName="id")
+	@JsonManagedReference
+	private Image image;
+
+	public Favourite() {
+
+	}
+	
+	public Favourite(User user, Image image, Post post) {
+		super();
+		this.user = user;
+		this.image = image;
+		this.post = post;
+	}
 
 	public Integer getId() {
 		return id;
@@ -37,14 +50,6 @@ public class Comment extends BaseTimeEntity{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public User getUser() {
@@ -55,6 +60,14 @@ public class Comment extends BaseTimeEntity{
 		this.user = user;
 	}
 
+	public Image getImage() {
+		return image;
+	}
+
+	public void setPost(Image image) {
+		this.image = image;
+	}
+
 	public Post getPost() {
 		return post;
 	}
@@ -62,6 +75,9 @@ public class Comment extends BaseTimeEntity{
 	public void setPost(Post post) {
 		this.post = post;
 	}
-	
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
 	
 }

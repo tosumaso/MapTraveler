@@ -8,7 +8,7 @@
 	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 	crossorigin="anonymous">
 <link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
-<script th:src="@{/js/MapTraveler.js}"></script>
+<script th:src="@{/js/MapTraveler2.js}"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script th:src="@{/js/websocket.js}"></script>
@@ -24,8 +24,9 @@
 				<th:block th:each="text : ${texts}">
 					<p th:text="${text.content}"></p>
 				</th:block>
-				<th:block th:each="image : ${images}">
-					<img th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
+				<th:block th:each="image: ${images}">
+					<img class="image-list" th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
+					<div th:class="like-image">いいね:<span id="times" th:text="${likes}"></span>回</div>
 				</th:block>
 
 				<div>
@@ -33,8 +34,7 @@
 						<div class="form-group">
 							<input th:value="${post.id}" id="post-id" type="hidden">
 							<input th:value="${post.user.id}" id="user-id" type="hidden">
-							<input type="text" id="comment"
-								class="form-control" placeholder="Hello">
+							<input type="text" id="comment" class="form-control" placeholder="Hello">
 						</div>
 						<button id="send-comment" class="btn btn-default" type="submit">Send</button>
 					</form>

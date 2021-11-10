@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -51,6 +52,10 @@ public class Post{
 	@OneToMany(mappedBy="post", cascade=CascadeType.PERSIST)
 	@JsonIgnore
 	private List<Text> texts = new ArrayList<Text>();
+	
+	@OneToMany(mappedBy="post")
+	@JsonBackReference
+	private List<Favourite> likes = new ArrayList<Favourite>();
 
 	public Post() {
 		
@@ -116,10 +121,14 @@ public class Post{
 
 	public void setTexts(List<Text> texts) {
 		this.texts = texts;
+	}
+
+	public List<Favourite> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<Favourite> likes) {
+		this.likes = likes;
 	}	
 	
-//	@Override
-//	public int compareTo(Post p) {
-//			return this.id - p.id;
-//	}
 }

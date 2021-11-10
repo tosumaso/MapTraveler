@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import MapTraveler.develop.Auth.ApplicationUser;
+import MapTraveler.develop.Entity.Favourite;
 import MapTraveler.develop.Entity.Image;
 import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
@@ -25,6 +26,7 @@ import MapTraveler.develop.Entity.Text;
 import MapTraveler.develop.Entity.User;
 import MapTraveler.develop.Form.PostForm;
 import MapTraveler.develop.Repository.CommentRepository;
+import MapTraveler.develop.Repository.FavouriteRepository;
 import MapTraveler.develop.Repository.ImageRepository;
 import MapTraveler.develop.Repository.MapRepository;
 import MapTraveler.develop.Repository.PostRepository;
@@ -47,6 +49,9 @@ public class MapTravelerController {
 	
 	@Autowired
 	CommentRepository commentRepository;
+	
+	@Autowired
+	FavouriteRepository favouriteRepository;
 	
 	@GetMapping("/index")
 	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model) {
@@ -100,6 +105,7 @@ public class MapTravelerController {
 	public String getPostMap(Integer id, Model model) {
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
+		model.addAttribute("likes", post.getLikes().size());
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", files);
@@ -107,6 +113,18 @@ public class MapTravelerController {
 		model.addAttribute("texts", texts);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
+	}
+	
+	@GetMapping("send/Myfavourite") //いいねの登録(user,imageに紐づく)
+	@ResponseBody
+	public List<Favourite> countUpFavourite(@AuthenticationPrincipal ApplicationUser principal, @RequestParam(name="imageIndex") Integer imageIndex, @RequestParam(name="postId") Integer postId){
+		Post post = postRepository.findById(postId).get();
+		User user = userRepository.findById(principal.getId()).get();
+		Image image = post.getImages().get(imageIndex);
+		Favourite newFavourite = new Favourite(user,image, post);
+		favouriteRepository.save(newFavourite);
+		List<Favourite> favourites = favouriteRepository.findByImage(image);
+		return favourites;
 	}
 	
 	@GetMapping("/search")
@@ -127,7 +145,7 @@ public class MapTravelerController {
 			List<Image> image = post.getImages();
 			for (int i=0; i< image.size(); i++) {
 				if (i == 0) {
-					images.add(Base64.getEncoder().encodeToString(image.get(i).getData())); //画像をDBから取り出してthymeleafで表示したい
+					images.add(Base64.getEncoder().encodeToString(image.get(i).getData()));
 				}
 			}
 		}

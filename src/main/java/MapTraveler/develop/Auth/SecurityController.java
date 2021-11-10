@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,7 +31,6 @@ public class SecurityController {
 				if (ex != null) {
 					model.addAttribute("showErrorFlag", true);
 					model.addAttribute("errorMsg", ex.getMessage());
-					System.out.println(ex.getMessage());
 				}
 			}
 		} 
@@ -40,13 +38,14 @@ public class SecurityController {
 	}
 	
 	@GetMapping("newUser")
-	public String getNewUserPage(UserRegistrationForm form) {
+	public String getNewUserPage(UserRegistrationForm form, Model model) {
 		return "newUser"; 
 	}
 	
 	@PostMapping("/newUser")
-	public String createNewUser(@Valid @ModelAttribute UserRegistrationForm form, BindingResult result) {
+	public String createNewUser(@Valid UserRegistrationForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			model.addAttribute("userRegistrationForm", form);
 			return "newUser";
 		}
 		User user = new User();

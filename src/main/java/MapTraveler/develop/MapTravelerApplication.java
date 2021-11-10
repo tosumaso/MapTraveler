@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableJpaAuditing //レコードの登録、更新時に時刻を自動で登録するための設定を有効化
 @SpringBootApplication
 public class MapTravelerApplication {
 
