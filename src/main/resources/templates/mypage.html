@@ -55,8 +55,8 @@
 									</th:block>
 									</div>
 									<div class="mypage-detailwrap">
-										<p th:text="${post.title}" class="mypage-post-title"></p>
-										<div th:text="${user.username}"></div>
+										<p th:text="${user.username}" class="mypage-post-title"></p>
+										<div th:text="${post.title}"></div>
 									</div>
 								</div>
 							</th:block>
@@ -72,11 +72,19 @@
 						</div>
 						
 						<div class="tab-pane" id="like" role="tabpanel" aria-labelledby="item3-tab">
-							<th:block th:each="like : ${favouriteImages}" th:if="!${#lists.isEmpty(favouriteImages)}">
-								<div class="mypage-comment-detail">
-									<img th:src="${'data:image/png;base64,'+ like}" alt="イメージが見当たりません">
+							<th:block th:each="like, l : ${favouriteImages}" th:if="!${#lists.isEmpty(favouriteImages)}">
+								<div class="mypage-detail">
+									<div class="mypage-picwrap">
+										<img th:src="${'data:image/png;base64,'+ like}" alt="イメージが見当たりません">
+									</div>
+									<th:block th:each="post, p : ${posts}">
+										<div class="mypage-detailwrap" th:if="${l.count == p.count}">
+											<p th:text="${post.user.username}" class="mypage-post-title"></p>
+											<div th:text="|${post.title}の画像をいいねしました|"></div>
+										</div>
+									</th:block>
 								</div>
-							</th:block>	
+							</th:block>
 						</div>
 					</div>
 				</div>

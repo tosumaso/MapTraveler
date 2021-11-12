@@ -140,7 +140,7 @@ public class MapTravelerController {
 	@GetMapping("/mypage")
 	public String getMypage(@AuthenticationPrincipal ApplicationUser principal, Model model) {
 		User user = userRepository.findById(principal.getId()).get();
-		model.addAttribute("user", user);
+		model.addAttribute("user", user); //ログインユーザー情報
 		List<String> images = new ArrayList<String>();
 		for (Post post: user.getPosts()) {
 			List<Image> image = post.getImages();
@@ -153,11 +153,15 @@ public class MapTravelerController {
 			
 		}
 		List<String> favouriteImages = new ArrayList<String>();
-		for (Favourite like : user.getLikes()) {
+		List<Post> posts = new ArrayList<Post>();
+		List<Favourite> likes = user.getLikes();
+		for (Favourite like : likes) {
 			String im = Base64.getEncoder().encodeToString(like.getImage().getData());
+			posts.add(like.getPost());
 			favouriteImages.add(im);
 		}
-		model.addAttribute("images", images);
+		model.addAttribute("images", images); //ログインユーザーが投稿した画像
+		model.addAttribute("posts", posts); //いいねに紐づいたpost
 		model.addAttribute("favouriteImages", favouriteImages); //いいねに紐づいた画像が表示されるか確認する
 		return "mypage";
 		
