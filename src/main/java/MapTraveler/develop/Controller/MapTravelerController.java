@@ -105,10 +105,11 @@ public class MapTravelerController {
 	public String getPostMap(Integer id, Model model) {
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
-		model.addAttribute("likes", post.getLikes().size());
+//		model.addAttribute("likes", post.getLikes());
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
-		model.addAttribute("images", files);
+		model.addAttribute("files", files);
+		model.addAttribute("images", images);
 		List<Text> texts = post.getTexts();
 		model.addAttribute("texts", texts);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
@@ -144,12 +145,20 @@ public class MapTravelerController {
 		for (Post post: user.getPosts()) {
 			List<Image> image = post.getImages();
 			for (int i=0; i< image.size(); i++) {
+				String im = Base64.getEncoder().encodeToString(image.get(i).getData());
 				if (i == 0) {
-					images.add(Base64.getEncoder().encodeToString(image.get(i).getData()));
+					images.add(im);
 				}
 			}
+			
+		}
+		List<String> favouriteImages = new ArrayList<String>();
+		for (Favourite like : user.getLikes()) {
+			String im = Base64.getEncoder().encodeToString(like.getImage().getData());
+			favouriteImages.add(im);
 		}
 		model.addAttribute("images", images);
+		model.addAttribute("favouriteImages", favouriteImages); //いいねに紐づいた画像が表示されるか確認する
 		return "mypage";
 		
 	}

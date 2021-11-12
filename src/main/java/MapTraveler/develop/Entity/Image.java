@@ -3,7 +3,6 @@ package MapTraveler.develop.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +38,7 @@ public class Image {
   @JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
   private Post post;
   
-  @OneToMany(mappedBy="image", cascade=CascadeType.PERSIST)
+  @OneToMany(mappedBy="image")
   @JsonBackReference
   private List<Favourite> favourites = new ArrayList<Favourite>();
   

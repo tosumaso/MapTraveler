@@ -63,7 +63,7 @@
 						</div>
 						
 						<div class="tab-pane" id="comment" role="tabpanel" aria-labelledby="item2-tab">
-							<th:block th:each="comment : ${user.comments}" th:if="${user.comments}">
+							<th:block th:each="comment, c : ${user.comments}" th:if="${user.comments}">
 								<div class="mypage-comment-detail">
 									<p th:text="${#temporals.format(comment.createdDate,'yyyy-MM-dd HH:mm:ss')}"></p>
 									<p th:text="${comment.content}"></p>
@@ -71,8 +71,13 @@
 							</th:block>	
 						</div>
 						
-						<div class="tab-pane" id="like" role="tabpanel"
-							aria-labelledby="item3-tab">いいね一覧</div>
+						<div class="tab-pane" id="like" role="tabpanel" aria-labelledby="item3-tab">
+							<th:block th:each="like : ${favouriteImages}" th:if="!${#lists.isEmpty(favouriteImages)}">
+								<div class="mypage-comment-detail">
+									<img th:src="${'data:image/png;base64,'+ like}" alt="イメージが見当たりません">
+								</div>
+							</th:block>	
+						</div>
 					</div>
 				</div>
 			</div>

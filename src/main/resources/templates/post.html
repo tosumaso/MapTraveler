@@ -21,12 +21,18 @@
 				<div th:text="${post.title}"></div>
 				<div th:text="|経度: ${post.map.lat}|"></div>
 				<div th:text="|緯度: ${post.map.lng}|"></div>
+				
 				<th:block th:each="text : ${texts}">
 					<p th:text="${text.content}"></p>
 				</th:block>
-				<th:block th:each="image: ${images}">
-					<img class="image-list" th:src="${'data:image/png;base64,'+ image}" alt="イメージが見当たりません">
-					<div th:class="like-image">いいね:<span id="times" th:text="${likes}"></span>回</div>
+				
+				<th:block th:each="file, fi: ${files}">
+					<img class="image-list" th:src="${'data:image/png;base64,'+ file}" alt="イメージが見当たりません">
+					<th:block th:each="image, i : ${images}">
+					<th:block th:each="favourite, f: ${image.favourites}">
+						<div th:if="${f.count == 1 && fi.count == i.count}" th:class="like-image">いいね:<span id="times" th:text="${f.size}"></span>回</div>
+					</th:block>
+				</th:block>
 				</th:block>
 
 				<div>
