@@ -43,6 +43,23 @@ function initMap() {
 			}
 		});
 	}
+	//How to Useのモーダル画面表示
+	const openHow= document.querySelector("#open-how");
+	const closeBtn= document.querySelector(".close_button");
+	const modalTrigger= document.querySelector(".modal_trigger");
+	const body = document.body;
+	openHow.addEventListener("click",() => {
+		body.classList.toggle("fixed");
+	})
+	closeBtn.addEventListener("click", () => {
+			body.classList.toggle("fixed");
+		})
+	window.addEventListener('click', (e) => {
+		if (e.target === modalTrigger) { 
+			body.classList.toggle("fixed");
+		}
+	});
+	
 	window.addEventListener("load", () => { //ホームページを取得して1秒後にマーカーを一覧表示する
 		setTimeout(() => {
 			fetch("get/markers").then(response => {

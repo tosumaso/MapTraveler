@@ -167,4 +167,9 @@ public class MapTravelerController {
 		
 	}
 	
+	@GetMapping("/practice")
+	public String getPractice() {
+		return "practice";
+	}
+	
 }

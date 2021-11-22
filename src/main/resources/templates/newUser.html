@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -13,7 +13,7 @@
 <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
 </head>
 <body>
-	<div class="global-header">
+<!-- 	<div class="global-header">
 		<img src="https://images.cooltext.com/5560340.png" width="467"
 			height="99" alt="MapTraveler" class="d-block mx-auto" />
 	</div>
@@ -25,8 +25,8 @@
 			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-center pt-3"></div>
 			<div class="form-group">
 				<div class="row pt-3 mb-3">
-					<!-- 要素を横並びにする -->
-					<!-- 画面幅によって中途半端なテキストの折り返しを防ぐために<span>で改行しないところを囲む -->
+					要素を横並びにする
+					画面幅によって中途半端なテキストの折り返しを防ぐために<span>で改行しないところを囲む
 					<label class="col-sm-2 control-label offset-sm-2" for="username">ユーザー名<span>(4文字以上10文字以下)</span></label>
 					<div class="col-sm-4 offset-sm-2">
 						<input type="text" class="form-control" id="username"
@@ -57,7 +57,38 @@
 		<div class="container-fluid text-center">
 			<p class="text-muted py-4">Copyright© MapTraveler All Rights Reserved</p>
 		</div>
-	</footer>
+	</footer> -->
+	
+	<div class="container login-rs">
+		
+		<div class="login-box">
+		<img src="https://images.cooltext.com/5560340.png" height="50" alt="MapTraveler" class="d-block mx-auto" />
+			<form method="post" action="/newUser" th:object="${userRegistrationForm}">
+
+				<div class="form-group px-4 pt-3 mb-3">
+					<label class="control-label" for="username">
+						ユーザー名<span>(4文字以上10文字以下)</span>
+						<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></span>
+					</label>
+					<input type="text" class="form-control" id="username" name="username">
+				</div>
+
+				<div class="form-group px-4 mb-4">
+					<label class="control-label" for="password">
+						パスワード<span>(8文字以上20文字以下)</span><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span>
+					</label>
+					<input type="password" class="form-control" id="password" name="password">
+				</div>
+
+				<div class="form-group text-center mb-5">
+					<button class="btn btn-lg btn-primary btn-block btn-success px-5" type="submit">登録</button>
+				</div>
+
+				<p class="login-footer">Copyright© MapTraveler All Rights Reserved</p>
+			</form>
+		</div>
+		
+	</div>
 	
 </body>
 </html>

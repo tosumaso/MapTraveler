@@ -1,16 +1,15 @@
 package MapTraveler.develop.Form;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRegistrationForm {
 
-	@NotBlank(message="ユーザー名を入力してください")
-	@Size(min=4, max=10, message="適切な字数で入力してください")
+	@Size(min=4, max=10, message="ユーザー名を4文字から10文字へ変更してください")
 	private String username;
 	
-	@NotBlank(message="パスワードを入力してください")
-	@Size(min=8, max=20, message="適切な字数で入力してください")
+	@Size(min=8, max=20, message="パスワードを8文字から20文字へ変更してください")
+	@Pattern(regexp="^[a-zA-Z0-9]+$", message="パスワードを半角英数字へ変更してください")
 	private String password;
 	
 	
