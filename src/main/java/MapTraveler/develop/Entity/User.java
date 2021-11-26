@@ -39,6 +39,16 @@ public class User {
 	@OneToMany(mappedBy="user")
 	@JsonBackReference
 	private List<Favourite> likes = new ArrayList<Favourite>();
+	
+	public User() {
+
+	}
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
 
 	public Integer getId() {
 		return id;

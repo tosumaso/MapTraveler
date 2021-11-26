@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1.0">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -9,26 +10,21 @@
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style type="text/css">
-	.container {
-		width: 40%;
-		background-color: gray;
-	}
-	.content {
-		background-color: red;
-		
-	}
-	.menu {
-		background-color: blue;
-	}
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="content col-sm-9">９せんち</div>
-			<div class="menu col-sm-3">3せんち</div>
-		</div>
-			
-	</div>
+	<th:block th:each="imageAndText, iAT: ${imagesAndTexts}">
+		<!-- 画像、テキスト、いいねの紐付け:リファクタリング必要 -->
+		<th:block th:each="imageOrText, iOT : ${imageAndText}">
+			<img th:if="${iOT.count == 1}" class="image-list"
+				th:src="${'data:image/png;base64,'+ imageOrText}" alt="イメージが見当たりません">
+			<p th:if="${iOT.count == 2}" th:text="${imageOrText}"></p>
+			<th:block th:each="image, i : ${images}">
+					<th:block th:each="favourite, f: ${image.favourites}">
+						<div th:if="${iOT.count == 2 && iAT.count == i.count && f.count == 1}" th:class="like-image">いいね:<span id="times" th:text="${f.size}"></span>回</div>
+					</th:block>
+			</th:block>
+		</th:block>
+	</th:block>
 </body>
 </html>

@@ -7,6 +7,8 @@
 
 html, body {
 	min-height:100%;
+}
+body {
 	background-color: #FFFFEE;
 }
 
@@ -80,12 +82,11 @@ ol li:after{
 	align-items: center;
 }
 
-.nav-item > a:hover, .nav-item > label:hover {
+.white-out:hover{
 	opacity: 0.7;
 	color: #99CCFF;
 	cursor: pointer;
 }
-
 .nav-item > a {
 	color: #000000;
 }
@@ -127,21 +128,7 @@ span.error-message{
 	font-size: 0.8rem;
 }
 
-@media screen and (max-width: 767px){
-html, body {background-color: #FFFFFF;}
-.container.login-rs {
-	height: 100vh;
-	width: 100％;
-	padding:0;
-	}
-.login-box {
-	height:100%;
-	width: 100%;
-	max-width:initial;
-	margin:0;
-	border:0;
-}
-}
+
 
 .login-footer {
 	margin-top: 20px;
@@ -251,10 +238,10 @@ html, body {background-color: #FFFFFF;}
 	width: 60px;
 }
 
-.map-container {
+/* .map-container {
 	height:auto;
 	width: auto;
-}
+} */
 
 #map {
 	width:auto;
@@ -387,4 +374,23 @@ html, body {background-color: #FFFFFF;}
 
 #conversation {
 	margin-bottom: 20px;
+}
+
+@media screen and (max-width: 767px){
+.login-body {background-color: #FFFFFF;}
+.container.login-rs {
+	height: 100vh;
+	width: 100％;
+	padding:0;
+	}
+.login-box {
+	height:100%;
+	width: 100%;
+	max-width:initial;
+	margin:0;
+	border:0;
+}
+.modal_bd{
+	width:100vw;
+}
 }

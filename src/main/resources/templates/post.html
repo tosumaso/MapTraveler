@@ -15,26 +15,52 @@
 <title th:text="|${post.title}について|"></title>
 </head>
 <body>
-	<div class="container-fluid">
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <div class="container-fluid">
+	    <a class="navbar-brand"><img src="https://images.cooltext.com/5560340.png" width="100%"
+			height="70" alt="MapTraveler" class="d-block mx-auto" /></a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+	      	<li class="nav-item">
+	        	<a class="nav-link" th:text="|ログイン中 ${username}|"></a>
+	        </li>
+	      	<li class="nav-item">
+	      	  <label for="trigger"class="nav-link white-out" aria-current="page" id="open-how">MapTravelerの使い方</label>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link white-out" aria-current="page" href="/mypage">マイページ</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link white-out" th:href="@{/logout}">ログアウト</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	
+	<div class="container">
 		<div class="row">
 			<div class="col-9">
 				<div th:text="${post.title}"></div>
 				<div th:text="|経度: ${post.map.lat}|"></div>
 				<div th:text="|緯度: ${post.map.lng}|"></div>
-				
-				<th:block th:each="text : ${texts}">
-					<p th:text="${text.content}"></p>
-				</th:block>
-				
-				<th:block th:each="file, fi: ${files}">
-					<img class="image-list" th:src="${'data:image/png;base64,'+ file}" alt="イメージが見当たりません">
-					<th:block th:each="image, i : ${images}">
-					<th:block th:each="favourite, f: ${image.favourites}">
-						<div th:if="${f.count == 1 && fi.count == i.count}" th:class="like-image">いいね:<span id="times" th:text="${f.size}"></span>回</div>
+
+				<th:block th:each="imageAndText, iAT: ${imagesAndTexts}"> <!-- 画像、テキスト、いいねの紐付け:リファクタリング必要 -->
+					<th:block th:each="imageOrText, iOT : ${imageAndText}">
+						<img th:if="${iOT.count == 1}" class="image-list" th:src="${'data:image/png;base64,'+ imageOrText}" alt="イメージが見当たりません">
+						<p th:if="${iOT.count == 2}" th:text="${imageOrText}"></p>
+						<th:block th:each="image, i : ${images}">
+							<th:block th:each="favourite, f: ${image.favourites}">
+								<div th:if="${iOT.count == 2 && iAT.count == i.count && f.count == 1}" th:class="like-image">いいね:<span id="times" th:text="${f.size}"></span>回</div>
+							</th:block>
+						</th:block>
 					</th:block>
 				</th:block>
-				</th:block>
-
+				
 				<div>
 					<form class="form-inline">
 						<div class="form-group">

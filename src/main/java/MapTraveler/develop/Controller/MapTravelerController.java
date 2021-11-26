@@ -102,16 +102,25 @@ public class MapTravelerController {
 	}
 	
 	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する(画像が複数ある場合)
-	public String getPostMap(Integer id, Model model) {
+	public String getPostMap(Integer id, Model model, @AuthenticationPrincipal ApplicationUser principal) {
+		model.addAttribute("username", principal.getUsername());
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
-//		model.addAttribute("likes", post.getLikes());
+		model.addAttribute("likes", post.getLikes());
+		//この時点でImageのレコードに参照しているPostとFavouriteのレコード情報を持たせ、thymeleafのimage.favouritesの時点ではFavouriteのレコードをLazyLoadingさせない
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
-		model.addAttribute("files", files);
 		model.addAttribute("images", images);
 		List<Text> texts = post.getTexts();
-		model.addAttribute("texts", texts);
+
+		List<List<String>> imagesAndTexts = new ArrayList<List<String>>();
+		for (int i=0; i < files.size(); i++) {
+			List<String> it = new ArrayList<String>();
+			it.add(files.get(i));
+			it.add(texts.get(i).getContent());
+			imagesAndTexts.add(it);
+		}
+		model.addAttribute("imagesAndTexts", imagesAndTexts);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
 	}
@@ -120,9 +129,8 @@ public class MapTravelerController {
 	@ResponseBody
 	public List<Favourite> countUpFavourite(@AuthenticationPrincipal ApplicationUser principal, @RequestParam(name="imageIndex") Integer imageIndex, @RequestParam(name="postId") Integer postId){
 		Post post = postRepository.findById(postId).get();
-		User user = userRepository.findById(principal.getId()).get();
 		Image image = post.getImages().get(imageIndex);
-		Favourite newFavourite = new Favourite(user,image, post);
+		Favourite newFavourite = new Favourite(post.getUser(),image, post);
 		favouriteRepository.save(newFavourite);
 		List<Favourite> favourites = favouriteRepository.findByImage(image);
 		return favourites;
