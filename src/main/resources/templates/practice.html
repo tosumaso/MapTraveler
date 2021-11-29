@@ -10,21 +10,48 @@
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style type="text/css">
+	.parent {
+		border: solid 1px red;
+	}
+	.imageAndText{
+		border: solid 1px black;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	
+	img {
+		max-width: 100%;
+		height:auto;
+	}
+
 </style>
 </head>
 <body>
-	<th:block th:each="imageAndText, iAT: ${imagesAndTexts}">
-		<!-- 画像、テキスト、いいねの紐付け:リファクタリング必要 -->
-		<th:block th:each="imageOrText, iOT : ${imageAndText}">
-			<img th:if="${iOT.count == 1}" class="image-list"
-				th:src="${'data:image/png;base64,'+ imageOrText}" alt="イメージが見当たりません">
-			<p th:if="${iOT.count == 2}" th:text="${imageOrText}"></p>
-			<th:block th:each="image, i : ${images}">
-					<th:block th:each="favourite, f: ${image.favourites}">
-						<div th:if="${iOT.count == 2 && iAT.count == i.count && f.count == 1}" th:class="like-image">いいね:<span id="times" th:text="${f.size}"></span>回</div>
-					</th:block>
-			</th:block>
-		</th:block>
-	</th:block>
+	<div class="container parent">
+		<div class="row imageAndText">
+			<div class="col-sm-6 col-xs-12">
+				<img th:src="@{/images/00-1.jpeg}" alt="表示できません">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<p>テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1</p>
+			</div>
+		</div>
+		<div class="row imageAndText">
+			<div class="col-sm-6 col-xs-12">
+				<img th:src="@{/images/staff3.jpg}" alt="表示できません">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<p>テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2</p>
+			</div>
+		</div>
+		<div class="row imageAndText">
+			<div class="col-sm-6 col-xs-12">
+				<img th:src="@{/images/staff3.jpg}" alt="表示できません">
+			</div>
+			<div class="col-sm-6 col-xs-12">
+				<p>テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3</p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

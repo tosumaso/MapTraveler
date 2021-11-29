@@ -1,39 +1,18 @@
 document.addEventListener("DOMContentLoaded",()=> {
-	let stompClient = null; 
-/*
-function setConnected(connected) {
-	document.querySelector("#connect").disabled = connected;
-	document.querySelector("#disconnect").disabled = !connected;
-
-	const conversation = document.querySelector("#conversation");
-	if (connected) {
-		
-	}
-	else {
-		conversation.style.display = "none";
-	}
-}*/
+	let stompClient = null;
 
 function connect() {
 	console.log("hi")
 	const socket = new SockJS('/endpoint'); 
 	stompClient = Stomp.over(socket); 
 	stompClient.connect({}, function(frame) {
-		//setConnected(true);
 		stompClient.subscribe('/big/greetings', function(message) {
 			const record = JSON.parse(message.body);
-			showGreeting(record.content);
+			console.log(record);
+			showGreeting(record);
 		});
 	});
 }
-
-/*function disconnect() {
-	if (stompClient !== null) {
-		stompClient.disconnect();
-	}
-	setConnected(false);
-	console.log("Disconnected");
-}*/
 
 function sendMessage() {
 	const comment = document.querySelector("#comment");
@@ -44,12 +23,23 @@ function sendMessage() {
 	comment.value = "";
 }
 
-function showGreeting(message) {
-	const tr = document.createElement("tr");
-	const td = document.createElement("td");
-	td.textContent = message;
-	tr.appendChild(td);
-	document.querySelector("#greetings").appendChild(tr); // <tr><td>message</td></tr>を描画
+function showGreeting(record) {
+	const li = document.createElement("li");
+	const combody = document.createElement("div");
+	const cominfo = document.createElement("p");
+	const ul = document.getElementById("greetings");
+	const date = new Date(record.createdDate).toLocaleString(); //JavaのISO8601形式の日付をjsで'yyyy/MM/dd HH:mm:ss'の形に変換
+	ul.appendChild(li);
+	li.classList.add("compost");
+	combody.classList.add("combody");
+	cominfo.classList.add("cominfo");
+	combody.innerHTML = `<p>${record.content}</p>`;
+	cominfo.innerHTML = `<p>
+		<span class="pe-3">${date}</span>
+		<span>${record.user.username}</span>
+	</p>`;
+	li.appendChild(combody);
+	li.appendChild(cominfo);
 }
 
 (function() { //一番最初に処理される即時関数
@@ -58,8 +48,6 @@ function showGreeting(message) {
 			e.preventDefault();
 		});
 	});
-	//document.querySelector("#connect").addEventListener("click", () => { connect(); });
-	//document.querySelector("#disconnect").addEventListener("click", () => { disconnect(); });
 	document.querySelector('#send-comment').addEventListener("click", () => { sendMessage(); });
 }());
 

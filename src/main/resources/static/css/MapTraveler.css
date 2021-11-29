@@ -238,11 +238,6 @@ span.error-message{
 	width: 60px;
 }
 
-/* .map-container {
-	height:auto;
-	width: auto;
-} */
-
 #map {
 	width:auto;
 	height: 80vh;
@@ -368,8 +363,69 @@ span.error-message{
 	display: flex;
 }
 
-.col-9, .col-3 {
-	border: 1px solid red;
+.post-title{
+	font-size: 1.6rem;
+	text-align: center;
+	border-radius: 15px;
+	padding: 10px;
+	background-color: #CCCCCC;
+}
+
+.post-container {
+	background-color: #ffffff;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.imageAndText{
+	border: solid 1px black;
+	padding-top: 20px;
+	margin-bottom: 20px;
+	margin-right:0; /*containerのrowはデフォルトで左右に15pxマージンがかかっている*/
+	margin-left:0;
+}
+
+.image-list {
+	/* max-width: 100%;
+	height:auto; */
+	max-height: 20vh;
+	object-fit:cover;
+	border: solid 1px #808080;
+	cursor: pointer; 
+}
+
+.like-image{
+	padding-bottom: 10px;
+}
+
+.comment-button{
+	width: 50px;
+	height:50px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+.post-comments{
+	list-style:none;
+	padding-left:0px;
+}
+
+.compost {
+	margin: 10px 0 15px;
+	
+}
+
+.combody {
+	background-color: #E6E6FA;
+	padding: 20px 15px 5px;
+	margin-bottom: 5px;
+	
+}
+
+.cominfo {
+	text-align: right;
+	padding-right: 10px;
+	margin-bottom: 0;
 }
 
 #conversation {
@@ -393,4 +449,12 @@ span.error-message{
 .modal_bd{
 	width:100vw;
 }
+}
+
+/*画面幅850px以上*/
+@media screen and (min-width: 850px){ 
+	.container.post-container {
+		max-width: 850px;
+	}
+	
 }
