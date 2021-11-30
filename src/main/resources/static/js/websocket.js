@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded",()=> {
 	let stompClient = null;
 
 function connect() {
-	console.log("hi")
 	const socket = new SockJS('/endpoint'); 
 	stompClient = Stomp.over(socket); 
 	stompClient.connect({}, function(frame) {

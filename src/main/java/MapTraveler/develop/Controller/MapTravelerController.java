@@ -120,6 +120,7 @@ public class MapTravelerController {
 			it.add(texts.get(i).getContent());
 			imagesAndTexts.add(it);
 		}
+		model.addAttribute("userId", principal.getId());
 		model.addAttribute("imagesAndTexts", imagesAndTexts);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
@@ -130,7 +131,7 @@ public class MapTravelerController {
 	public List<Favourite> countUpFavourite(@AuthenticationPrincipal ApplicationUser principal, @RequestParam(name="imageIndex") Integer imageIndex, @RequestParam(name="postId") Integer postId){
 		Post post = postRepository.findById(postId).get();
 		Image image = post.getImages().get(imageIndex);
-		Favourite newFavourite = new Favourite(post.getUser(),image, post);
+		Favourite newFavourite = new Favourite(userRepository.findById(principal.getId()).get(),image, post);
 		favouriteRepository.save(newFavourite);
 		List<Favourite> favourites = favouriteRepository.findByImage(image);
 		return favourites;

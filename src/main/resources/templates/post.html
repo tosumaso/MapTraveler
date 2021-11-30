@@ -8,6 +8,7 @@
 	rel="stylesheet"
 	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 	crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 <link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
 <script th:src="@{/js/MapTraveler2.js}"></script>
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -62,7 +63,7 @@
 								<div
 									th:if="${iOT.count == 2 && iAT.count == i.count && f.count == 1}"
 									th:class="like-image">
-									いいね:<span id="times" th:text="${f.size}"></span>回
+									<i class="far fa-heart"></i>:<span id="times" th:text="${f.size}"></span>回
 								</div>
 							</th:block>
 						</th:block>
@@ -80,9 +81,9 @@
 		<form class="collapse form-inline mb-3" id="collapseExample">
 			<div class="form-group mb-3">
 				<input th:value="${post.id}" id="post-id" type="hidden"> <input
-					th:value="${post.user.id}" id="user-id" type="hidden"> <label
-					class="control-label">コメント</label> <input type="text" id="comment"
-					class="form-control" placeholder="ここにコメントを入力してください">
+					th:value="${userId}" id="user-id" type="hidden"> <label
+					class="control-label">コメント</label><span id="comment-alert">200文字以内にしてください</span>
+					<input type="text" id="comment" class="form-control" placeholder="ここにコメントを入力してください">
 			</div>
 			<button id="send-comment" class="btn btn-lg btn-block btn-secondary"
 				type="submit">送信</button>

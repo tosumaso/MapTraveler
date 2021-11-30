@@ -398,6 +398,12 @@ span.error-message{
 	padding-bottom: 10px;
 }
 
+#comment-alert {
+	display:none;
+	padding-left: 15px;
+	color: #ef6074;
+}
+
 .comment-button{
 	width: 50px;
 	height:50px;
