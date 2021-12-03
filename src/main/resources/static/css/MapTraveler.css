@@ -398,6 +398,10 @@ span.error-message{
 	padding-bottom: 10px;
 }
 
+.like-btn {
+	color: #e54747;
+}
+
 #comment-alert {
 	display:none;
 	padding-left: 15px;

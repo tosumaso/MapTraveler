@@ -104,35 +104,37 @@ public class MapTravelerController {
 	@GetMapping("/getPostMap") //マーカーに紐づいたPostのページを取得する(画像が複数ある場合)
 	public String getPostMap(Integer id, Model model, @AuthenticationPrincipal ApplicationUser principal) {
 		model.addAttribute("username", principal.getUsername());
+		model.addAttribute("userId", principal.getId());
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
-		model.addAttribute("likes", post.getLikes());
 		//この時点でImageのレコードに参照しているPostとFavouriteのレコード情報を持たせ、thymeleafのimage.favouritesの時点ではFavouriteのレコードをLazyLoadingさせない
 		List<Image> images = imageRepository.findByPost(post);
-		List<String> files= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
+		List<String> base64List= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", images);
-		List<Text> texts = post.getTexts();
-
-		List<List<String>> imagesAndTexts = new ArrayList<List<String>>();
-		for (int i=0; i < files.size(); i++) {
-			List<String> it = new ArrayList<String>();
-			it.add(files.get(i));
-			it.add(texts.get(i).getContent());
-			imagesAndTexts.add(it);
+		model.addAttribute("base64List", base64List);
+		List<Boolean> favouriteFlag = new ArrayList<Boolean>();
+		for (int i=0; i < images.size(); i++) {
+			if (favouriteRepository.findByImageAndPostAndUser(images.get(i), post, userRepository.findById(principal.getId()).get()) == null) {
+				favouriteFlag.add(false);
+			} else {
+				favouriteFlag.add(true);
+			}
 		}
-		model.addAttribute("userId", principal.getId());
-		model.addAttribute("imagesAndTexts", imagesAndTexts);
+		model.addAttribute("favouriteFlag", favouriteFlag);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
 		return "/post";
 	}
 	
-	@GetMapping("send/Myfavourite") //いいねの登録(user,imageに紐づく)
+	@GetMapping("send/Myfavourite")
 	@ResponseBody
 	public List<Favourite> countUpFavourite(@AuthenticationPrincipal ApplicationUser principal, @RequestParam(name="imageIndex") Integer imageIndex, @RequestParam(name="postId") Integer postId){
 		Post post = postRepository.findById(postId).get();
 		Image image = post.getImages().get(imageIndex);
-		Favourite newFavourite = new Favourite(userRepository.findById(principal.getId()).get(),image, post);
-		favouriteRepository.save(newFavourite);
+		User user = userRepository.findById(principal.getId()).get();
+		if (favouriteRepository.findByImageAndPostAndUser(image, post, user) == null) {
+			Favourite newFavourite = new Favourite(user,image, post);
+			favouriteRepository.save(newFavourite);
+		}
 		List<Favourite> favourites = favouriteRepository.findByImage(image);
 		return favourites;
 	}

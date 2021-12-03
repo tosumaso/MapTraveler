@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import MapTraveler.develop.Entity.Favourite;
 import MapTraveler.develop.Entity.Image;
+import MapTraveler.develop.Entity.Post;
+import MapTraveler.develop.Entity.User;
 
 public interface FavouriteRepository extends JpaRepository<Favourite, Integer>{
 	
@@ -14,4 +16,5 @@ public interface FavouriteRepository extends JpaRepository<Favourite, Integer>{
 	List<Favourite> findByImage(Image image);
 	
 
+	Favourite findByImageAndPostAndUser(Image image, Post post, User user);
 }
