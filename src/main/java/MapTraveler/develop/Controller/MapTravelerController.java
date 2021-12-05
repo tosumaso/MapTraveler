@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Entity.Text;
 import MapTraveler.develop.Entity.User;
+import MapTraveler.develop.Form.DeleteFavouriteForm;
 import MapTraveler.develop.Form.PostForm;
 import MapTraveler.develop.Repository.CommentRepository;
 import MapTraveler.develop.Repository.FavouriteRepository;
@@ -131,10 +133,22 @@ public class MapTravelerController {
 		Post post = postRepository.findById(postId).get();
 		Image image = post.getImages().get(imageIndex);
 		User user = userRepository.findById(principal.getId()).get();
-		if (favouriteRepository.findByImageAndPostAndUser(image, post, user) == null) {
-			Favourite newFavourite = new Favourite(user,image, post);
-			favouriteRepository.save(newFavourite);
-		}
+//		if (favouriteRepository.findByImageAndPostAndUser(image, post, user).get() == null) {
+//			Favourite newFavourite = new Favourite(user,image, post);
+//			favouriteRepository.save(newFavourite);
+//		}
+		favouriteRepository.findByImageAndPostAndUser(image, post, user).ifPresentOrElse(null, () -> favouriteRepository.save(new Favourite(user,image,post)));
+		List<Favourite> favourites = favouriteRepository.findByImage(image);
+		return favourites;
+	}
+	
+	@PostMapping("delete/Myfavourite")
+	@ResponseBody
+	public List<Favourite> deleteFavourite(@RequestBody DeleteFavouriteForm form, @AuthenticationPrincipal ApplicationUser principal) { //@RequestBody HttpRequestのbodyに含まれたJsonデータをFormオブジェクトと紐づける
+		Post post = postRepository.findById(form.getPostId()).get();
+		Image image = post.getImages().get(form.getImageIndex());
+		User user = userRepository.findById(principal.getId()).get();
+		favouriteRepository.findByImageAndPostAndUser(image, post, user).ifPresent(f -> favouriteRepository.deleteById(f.getId()));
 		List<Favourite> favourites = favouriteRepository.findByImage(image);
 		return favourites;
 	}

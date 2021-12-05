@@ -46,14 +46,14 @@
 					<th:block th:if="${!#lists.isEmpty(image.favourites)}">
 						<!-- いいねが１個以上ある場合 -->
 						<div th:class="like-image">
-							<i class="fa-heart " th:classappend="${favouriteFlag[i.index]} ? 'fas like-btn' : 'far'"></i> :<span id="times" th:text="${#lists.size(image.favourites)}"></span>回
+							<i class="fa-heart like-toggle" th:classappend="${favouriteFlag[i.index]} ? 'fas like-btn' : 'far'"></i> :<span id="times" th:text="${#lists.size(image.favourites)}"></span>回
 						</div>
 					</th:block> 
 
 					<th:block th:if="${#lists.isEmpty(image.favourites)}">
 						<div th:class="like-image">
 							<!-- いいねが1個もない場合 -->
-							<i class="far fa-heart"></i>:<span id="times">0</span>回
+							<i class="far fa-heart like-toggle"></i>:<span id="times">0</span>回
 						</div>
 					</th:block>
 				</div>

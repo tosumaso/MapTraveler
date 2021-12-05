@@ -1,6 +1,7 @@
 package MapTraveler.develop.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,5 @@ public interface FavouriteRepository extends JpaRepository<Favourite, Integer>{
 	List<Favourite> findByImage(Image image);
 	
 
-	Favourite findByImageAndPostAndUser(Image image, Post post, User user);
+	Optional<Favourite> findByImageAndPostAndUser(Image image, Post post, User user);
 }

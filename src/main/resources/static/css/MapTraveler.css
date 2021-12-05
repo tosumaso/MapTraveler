@@ -400,6 +400,7 @@ span.error-message{
 
 .like-btn {
 	color: #e54747;
+	cursor: pointer;
 }
 
 #comment-alert {
