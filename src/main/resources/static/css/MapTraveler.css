@@ -245,7 +245,8 @@ span.error-message{
 }
 
 .modal {
-	display: none;
+	display: none; 
+	/* display: block; */
 	position: fixed;
 	z-index: 1; /* 数値が高いほど重なっている要素が手前にくる*/
 	left: 0;
@@ -277,6 +278,7 @@ span.error-message{
 	/* height: 100%;
 	position: relative;*/
 	text-align: center;
+	background-color: #FFFFEE;
 }
 
 .modal-form {
@@ -327,6 +329,30 @@ span.error-message{
   transition: 0.5s;
 }
 
+.each-content{
+	border: 2px solid #DDDDDD;
+	box-shadow: 1.5px 1.5px 2px #ccc;
+	position: relative;
+	padding: 20px 0;
+	margin-bottom: 20px;
+}
+.ghost {
+	opacity: 0.4;
+	background-color: #C8EBFB;
+}
+.each-content-card{
+	position: absolute;
+	padding: 0.5em;
+	background-color: #FFFFEE;
+	left: 20px;
+	top: -20px;
+}
+.close-each-content{
+	position:absolute;
+	right:0;
+	top:0;
+}
+
 .close_button{
   position: absolute;
   top: 14px;
@@ -348,6 +374,7 @@ span.error-message{
 
 #stars>.star {
 	color: #FF9900;
+	cursor: pointer;
 }
 
 .multiple-texts {
@@ -380,6 +407,7 @@ span.error-message{
 .imageAndText{
 	border: solid 1px black;
 	padding-top: 20px;
+	padding-bottom: 20px;
 	margin-bottom: 20px;
 	margin-right:0; /*containerのrowはデフォルトで左右に15pxマージンがかかっている*/
 	margin-left:0;
@@ -388,7 +416,7 @@ span.error-message{
 .image-list {
 	/* max-width: 100%;
 	height:auto; */
-	max-height: 20vh;
+	max-height: 200px;
 	object-fit:cover;
 	border: solid 1px #808080;
 	cursor: pointer; 

@@ -109,18 +109,14 @@ public class MapTravelerController {
 		model.addAttribute("userId", principal.getId());
 		Post post =postRepository.findById(id).get();
 		model.addAttribute("post", post);
-		//この時点でImageのレコードに参照しているPostとFavouriteのレコード情報を持たせ、thymeleafのimage.favouritesの時点ではFavouriteのレコードをLazyLoadingさせない
 		List<Image> images = imageRepository.findByPost(post);
 		List<String> base64List= images.stream().map(image ->  Base64.getEncoder().encodeToString(image.getData())).collect(Collectors.toList());
 		model.addAttribute("images", images);
 		model.addAttribute("base64List", base64List);
 		List<Boolean> favouriteFlag = new ArrayList<Boolean>();
 		for (int i=0; i < images.size(); i++) {
-			if (favouriteRepository.findByImageAndPostAndUser(images.get(i), post, userRepository.findById(principal.getId()).get()) == null) {
-				favouriteFlag.add(false);
-			} else {
-				favouriteFlag.add(true);
-			}
+			favouriteRepository.findByImageAndPostAndUser(images.get(i), post, userRepository.findById(principal.getId()).get())
+			.ifPresentOrElse((f) -> favouriteFlag.add(false), () -> favouriteFlag.add(true));
 		}
 		model.addAttribute("favouriteFlag", favouriteFlag);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
@@ -133,10 +129,6 @@ public class MapTravelerController {
 		Post post = postRepository.findById(postId).get();
 		Image image = post.getImages().get(imageIndex);
 		User user = userRepository.findById(principal.getId()).get();
-//		if (favouriteRepository.findByImageAndPostAndUser(image, post, user).get() == null) {
-//			Favourite newFavourite = new Favourite(user,image, post);
-//			favouriteRepository.save(newFavourite);
-//		}
 		favouriteRepository.findByImageAndPostAndUser(image, post, user).ifPresentOrElse(null, () -> favouriteRepository.save(new Favourite(user,image,post)));
 		List<Favourite> favourites = favouriteRepository.findByImage(image);
 		return favourites;

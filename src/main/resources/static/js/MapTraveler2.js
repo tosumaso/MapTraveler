@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		image.addEventListener("click", async () => {
 			const result = await fetch(`send/Myfavourite?imageIndex=${index}&postId=${post.value}`);
 			const data = await result.json();
-			//console.log(data);
+			console.log(data);
 			hearts[index].classList.add("fas", "like-btn");
 			hearts[index].classList.remove("far");
 			times[index].innerHTML = data.length;

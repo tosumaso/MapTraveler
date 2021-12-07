@@ -29,7 +29,7 @@ function initMap() {
 		modal.style.display = "block"; //モーダル表示ボタンが押されたら#modalのdivのstyle属性のdisplayプロパティにblockを追加
 		document.getElementById("lat").value = latLng.lat();
 		document.getElementById("lng").value = latLng.lng();
-		
+
 		body.classList.add("fixed");
 
 		closeBtn.addEventListener("click", () => {
@@ -44,22 +44,22 @@ function initMap() {
 		});
 	}
 	//How to Useのモーダル画面表示
-	const openHow= document.querySelector("#open-how");
-	const closeBtn= document.querySelector(".close_button");
-	const modalTrigger= document.querySelector(".modal_trigger");
+	const openHow = document.querySelector("#open-how");
+	const closeBtn = document.querySelector(".close_button");
+	const modalTrigger = document.querySelector(".modal_trigger");
 	const body = document.body;
-	openHow.addEventListener("click",() => {
+	openHow.addEventListener("click", () => {
 		body.classList.toggle("fixed");
 	})
 	closeBtn.addEventListener("click", () => {
-			body.classList.toggle("fixed");
-		})
+		body.classList.toggle("fixed");
+	})
 	window.addEventListener('click', (e) => {
-		if (e.target === modalTrigger) { 
+		if (e.target === modalTrigger) {
 			body.classList.toggle("fixed");
 		}
 	});
-	
+
 	window.addEventListener("load", () => { //ホームページを取得して1秒後にマーカーを一覧表示する
 		setTimeout(() => {
 			fetch("get/markers").then(response => {
@@ -185,21 +185,34 @@ document.addEventListener("DOMContentLoaded", () => {
 	//画像選択したときのテキストボックス、画像追加ボックスを追加
 	multiplebox.addEventListener('change', (e) => {
 		if (e.target.tagName === "INPUT") {
-			const eachContent =document.createElement("div");
-			eachContent.setAttribute("class","each-content");
-			multiplebox.appendChild(eachContent);
-			eachContent.insertAdjacentHTML('beforeend', `<textarea  name="texts" class="multiple-texts"></textarea>`);
-			eachContent.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
-			eachContent.insertAdjacentHTML('beforeend', `<button type="button" class="btn-close close-each-content" aria-label="Close"></button>`)
+			createCard();
+			
 		}
-
+		let sortable =Sortable.create(multiplebox,{
+				animation: 150,
+				ghostClass: "ghost"
+			})
 	})
-	
-	function closeContent(){
-		multiplebox.addEventListener('click',(e) => {
+
+
+	//画像を選択したとき新しいカードを追加
+	function createCard() {
+		const eachContent = document.createElement("div");
+		eachContent.setAttribute("class", "each-content");
+		eachContent.setAttribute("id", "card");
+		eachContent.setAttribute("draggable", "true");
+		multiplebox.appendChild(eachContent);
+		eachContent.insertAdjacentHTML('beforeend', `<span class="each-content-card">記録カード</span> <textarea  name="texts" class="multiple-texts"></textarea>`);
+		eachContent.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
+		eachContent.insertAdjacentHTML('beforeend', `<button type="button" class="btn-close close-each-content" aria-label="Close"></button>`);
+	}
+
+	//モーダル画面を閉じる
+	function closeContent() {
+		multiplebox.addEventListener('click', (e) => {
 			const ele = e.target;
-			if (ele.className === "btn-close close-each-content"){
-				const eachContent =ele.parentNode;
+			if (ele.className === "btn-close close-each-content") {
+				const eachContent = ele.parentNode;
 				multiplebox.removeChild(eachContent);
 			}
 		})

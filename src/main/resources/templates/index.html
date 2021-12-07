@@ -2,111 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
 <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-<link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css"/>
+<link th:href="@{/css/MapTraveler.css}" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script th:src="@{/js/MapTraveler.js}"></script>
 <title>MapTraveler</title>
 <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
 </head>
 <body>
-<div class="wrapper">
-	
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <div class="container-fluid">
-	    <a class="navbar-brand"><img src="https://images.cooltext.com/5560340.png" width="100%"
-			height="70" alt="MapTraveler" class="d-block mx-auto" /></a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-	      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-	      	<li class="nav-item">
-	        	<a class="nav-link" th:text="|ログイン中 ${username}|"></a>
-	        </li>
-	      	<li class="nav-item">
-	      	  <label for="trigger"class="nav-link white-out" aria-current="page" id="open-how">MapTravelerの使い方</label>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link white-out" aria-current="page" href="/mypage">マイページ</a>
-	        </li>
-	        <li class="nav-item">
-	          <a class="nav-link white-out" th:href="@{/logout}">ログアウト</a>
-	        </li>
-	      </ul>
-	    </div>
-	  </div>
-	</nav>
-	
-	<div class="search-box text-center my-3">
-		<form>
-			<input id="keyword" type="text" name="keyword" placeholder="キーワード検索"><input id="submit-keyword" type=submit value=&#xf002;>
-		</form>
-	</div>
+	<div class="wrapper">
+		<!-- header,ナビバー -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/index"><img src="https://images.cooltext.com/5560340.png" width="100%" height="70" alt="MapTraveler" class="d-block mx-auto" /></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link" th:text="|ログイン中 ${username}|"></a></li>
+						<li class="nav-item"><label for="trigger" class="nav-link white-out" aria-current="page" id="open-how">MapTravelerの使い方</label></li>
+						<li class="nav-item"><a class="nav-link white-out" aria-current="page" href="/mypage">マイページ</a></li>
+						<li class="nav-item"><a class="nav-link white-out" th:href="@{/logout}">ログアウト</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- キーワード検索 -->
+		<div class="search-box text-center my-3">
+			<form>
+				<input id="keyword" type="text" name="keyword" placeholder="キーワード検索"><input id="submit-keyword" type=submit value=&#xf002;>
+			</form>
+		</div>
+		<!-- googleMap -->
+		<div class="container map-container">
+			<div id="map"></div>
+		</div>
 
-	<div class="container map-container">
-		<div id="map"></div>
-	</div>
-	
-	<div class="modal_wrap"> <!-- MapTravelerの使い方モーダル画面 -->
-		<input id="trigger" type="checkbox">
-  		<div class="modal_overlay">
-    		<label for="trigger" class="modal_trigger"></label>
-    		<div class="modal_bd">
-      			<label for="trigger" class="close_button">✖️</label>
-      			<h2 class="text-center">How to Use MapTraveler</h2>
-      			<img th:src="@{/images/HowToUse.png}" class="img-fluid"/>
-      			<ol>
-      				<li>GoogleMapをクリックして投稿したい場所を選択</li>
-      				<li>記事を作成して投稿</li>
-      				<li>みんなで画像を評価したりコメントを残しましょう!</li>
-      			</ol>
-   			</div>
-  		</div>
-	</div>
-	
-	<div id="modal" class="modal"> <!-- 投稿用モーダル画面 -->
-		<div class="modal-content">
-			<div class="modal-body container">
-				<h1>旅の記録を残しましょう!</h1>
-				<form class="modal-form" th:action="@{/postMap}" method="post" enctype="multipart/form-data">
-					タイトル<input type="text" name="title">
-					緯度<input id="lat" type="text" name="lat"> 
-					経度<input id="lng" type="text"name="lng">
-					評価<div id="stars">
-			        	<span class="star" data-star="1">☆</span>
-			        	<span class="star" data-star="2">☆</span>
-			        	<span class="star" data-star="3">☆</span>
-			        	<span class="star" data-star="4">☆</span>
-			        	<span class="star" data-star="5">☆</span>
-			    	</div>
-			    	<input id="star-input" type="hidden" value="" name="star">
-			    	<p>下書きを書く</p>
-			    	<div id="multiple-contents">
-			    		<div class="each-content">
-			    			<textarea  name="texts" class="multiple-texts"></textarea>
-							<input type="file" name="files" class="multiple-images">
-							<button type="button" class="btn-close close-each-content" aria-label="Close"></button>
-			    		</div>
-			    	</div>
-					<input type="submit" value="送信" id="submit-post">
-				</form>
-				<div class="button-wrap">
-					<button type="button" class="btn-close" aria-label="Close" id="closeBtn"></button>
+		<div class="modal_wrap">
+			<!-- MapTravelerの使い方モーダル画面 -->
+			<input id="trigger" type="checkbox">
+			<div class="modal_overlay">
+				<label for="trigger" class="modal_trigger"></label>
+				<div class="modal_bd">
+					<label for="trigger" class="close_button">✖️</label>
+					<h2 class="text-center">How to Use MapTraveler</h2>
+					<img th:src="@{/images/HowToUse.png}" class="img-fluid" />
+					<ol>
+						<li>GoogleMapをクリックして投稿したい場所を選択</li>
+						<li>記事を作成して投稿</li>
+						<li>みんなで画像を評価したりコメントを残しましょう!</li>
+					</ol>
 				</div>
 			</div>
 		</div>
-	</div>
-	
+
+		<div id="modal" class="modal">
+			<!-- 投稿用モーダル画面 -->
+			<div class="modal-content">
+				<div class="modal-body container">
+					<h1>旅の記録を<span>残しましょう!</span></h1>
+					<form class="modal-form" th:action="@{/postMap}" method="post" enctype="multipart/form-data">
+						タイトル<input type="text" name="title"> 緯度<input id="lat" type="text" name="lat" readonly="readonly"> 経度<input id="lng" type="text" name="lng" readonly="readonly"> 評価
+						<div id="stars">
+							<span class="star" data-star="1">☆</span> <span class="star" data-star="2">☆</span> <span class="star" data-star="3">☆</span> <span class="star" data-star="4">☆</span> <span class="star"
+								data-star="5">☆</span>
+						</div>
+						<input id="star-input" type="hidden" value="" name="star">
+						<p>下書きを書く</p>
+						<div id="multiple-contents">
+							<div class="each-content" id="card" draggable="true">
+								<span class="each-content-card">記録カード</span>
+								<button type="button" class="btn-close close-each-content" aria-label="Close"></button>
+								<textarea name="texts" class="multiple-texts"></textarea>
+								<input type="file" name="files" class="multiple-images">
+							</div>
+						</div>
+						<input type="submit" value="送信" id="submit-post">
+					</form>
+					<div class="button-wrap">
+						<button type="button" class="btn-close" aria-label="Close" id="closeBtn"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- footer -->
 		<div class="global-footer container-fluid text-center">
 			<p class="powered-by pt-3">Powered By Spring Framework</p>
 			<p class="rights-reserved">Copyright© MapTraveler All Rights Reserved</p>
 		</div>
+
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDekF2nUeq0Hsswmv1-yjLjWWL9PXxkDfI&callback=initMap">
+			
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 		
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDekF2nUeq0Hsswmv1-yjLjWWL9PXxkDfI&callback=initMap">		
-	</script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-</div>
+	</div>
 </body>
 </html>

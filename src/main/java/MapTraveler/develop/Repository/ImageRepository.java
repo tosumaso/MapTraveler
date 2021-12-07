@@ -10,6 +10,6 @@ import MapTraveler.develop.Entity.Post;
 
 public interface ImageRepository extends JpaRepository<Image,Integer>{
 	
-	@Query("select distinct i from Image i left join fetch i.post left join fetch i.favourites where i.post=:post")
+	@Query("select distinct i from Image i left join fetch i.post left join fetch i.favourites where i.post=:post order by i.id asc")
 	List<Image> findByPost(Post post);
 }

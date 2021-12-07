@@ -1,57 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" name="viewport"
-	content="width=device-width, initial-scale=1.0">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 	crossorigin="anonymous">
 <title>Insert title here</title>
 <style type="text/css">
-	.parent {
-		border: solid 1px red;
+	.ghost {
+		opacity: 0.4;
+		background-color: #C8EBFB;
 	}
-	.imageAndText{
-		border: solid 1px black;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	
-	img {
-		max-width: 100%;
-		height:auto;
-	}
-
 </style>
 </head>
 <body>
-	<div class="container parent">
-		<div class="row imageAndText">
-			<div class="col-sm-6 col-xs-12">
-				<img th:src="@{/images/00-1.jpeg}" alt="表示できません">
-			</div>
-			<div class="col-sm-6 col-xs-12">
-				<p>テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1テストテキスト1</p>
-			</div>
-		</div>
-		<div class="row imageAndText">
-			<div class="col-sm-6 col-xs-12">
-				<img th:src="@{/images/staff3.jpg}" alt="表示できません">
-			</div>
-			<div class="col-sm-6 col-xs-12">
-				<p>テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2テストテキスト2</p>
-			</div>
-		</div>
-		<div class="row imageAndText">
-			<div class="col-sm-6 col-xs-12">
-				<img th:src="@{/images/staff3.jpg}" alt="表示できません">
-			</div>
-			<div class="col-sm-6 col-xs-12">
-				<p>テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3テストテキスト3</p>
-			</div>
-		</div>
-	</div>
+	<ul id="items">
+		<li id="hoge">item 1</li>
+		<li id="hoge">item 2</li>
+		<li id="hoge">item 3</li>
+	</ul>
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script>
+	var el = document.getElementById('items');
+	var sortable = Sortable.create(el, {
+		animation: 150,
+		ghostClass: 'ghost'
+	});
+	</script>
 </body>
-</html>
+</html><!-- Sortable.jsでドラッグ/ドロップの並び替えを学ぶ -->
