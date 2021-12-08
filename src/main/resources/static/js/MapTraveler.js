@@ -186,12 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	multiplebox.addEventListener('change', (e) => {
 		if (e.target.tagName === "INPUT") {
 			createCard();
-			
 		}
-		let sortable =Sortable.create(multiplebox,{
-				animation: 150,
-				ghostClass: "ghost"
-			})
+	})
+	//投稿画像とテキストのカードを並び替える
+	let sortable = Sortable.create(multiplebox, {
+		animation: 150,
+		ghostClass: "ghost"
 	})
 
 

@@ -5,11 +5,12 @@
 	font-family: 'Noto Sans JP', sans-serif; /*全ての要素にgooglefontsを適応させる*/
 }
 
-html, body {
-	min-height:100%;
+html {
+	height:100%;
 }
 body {
 	background-color: #FFFFEE;
+	overflow-y:scroll;
 }
 
 body.fixed { /* モーダル画面を表示したときに後ろの背景をスクロールさせない*/
@@ -105,7 +106,7 @@ ol li:after{
 	margin :0 auto; /* text-align:centerはブロック要素につけ、その中のインライン要素のみを中央にする。それ以外はmargin:0 autoで中央にする*/
 }
 
-@keyframes gradient {
+/* @keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
@@ -115,7 +116,7 @@ ol li:after{
   100% {
     background-position: 0% 50%;
   }
-}
+} */
 
 .login-box {
 	height: 450px;
@@ -138,9 +139,10 @@ span.error-message{
 }
 
 .wrapper {
-	min-height: 100vh;
+	min-height: 100%;
 	position: relative;
 	padding-bottom: 150px;
+	
 }
 
 .mypage-wrapper{ /*マイページではメインコンテンツとfooterの隙間をなくすためにpadding-bottomを上書きする*/
@@ -487,6 +489,9 @@ span.error-message{
 }
 .modal_bd{
 	width:100vw;
+}
+.modal-content{
+	width: 80%;
 }
 }
 
