@@ -64,7 +64,9 @@
 			<!-- 投稿用モーダル画面 -->
 			<div class="modal-content">
 				<div class="modal-body container">
-					<h1>旅の記録を<span>残しましょう!</span></h1>
+					<h1>
+						旅の記録を<span>残しましょう!</span>
+					</h1>
 					<form class="modal-form" th:action="@{/postMap}" method="post" enctype="multipart/form-data">
 						タイトル<input type="text" name="title"> 緯度<input id="lat" type="text" name="lat" readonly="readonly"> 経度<input id="lng" type="text" name="lng" readonly="readonly"> 評価
 						<div id="stars">
@@ -78,13 +80,14 @@
 								<span class="each-content-card">記録カード</span>
 								<button type="button" class="btn-close close-each-content" aria-label="Close"></button>
 								<textarea name="texts" class="multiple-texts"></textarea>
-								<input type="file" name="files" class="multiple-images">
+								<label class="multiple-images-label"><input type="file" name="files" class="multiple-images">ファイルを選択</label>
+								<p>選択されていません</p>
 							</div>
 						</div>
-						<input type="submit" value="送信" id="submit-post">
+						<button class="btn btn-lg btn-primary btn-block btn-success px-5" type="submit">送信</button>
 					</form>
 					<div class="button-wrap">
-						<button type="button" class="btn-close" aria-label="Close" id="closeBtn"></button>
+						<button type="button" class="btn-close mt-3" aria-label="Close" id="closeBtn"></button>
 					</div>
 				</div>
 			</div>
@@ -99,7 +102,7 @@
 			
 		</script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-		
+
 	</div>
 </body>
 </html>

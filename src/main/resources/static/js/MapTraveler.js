@@ -186,6 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	multiplebox.addEventListener('change', (e) => {
 		if (e.target.tagName === "INPUT") {
 			createCard();
+			e.target.parentNode.nextElementSibling.textContent = e.target.files[0].name;
+			
 		}
 	})
 	//投稿画像とテキストのカードを並び替える
@@ -203,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		eachContent.setAttribute("draggable", "true");
 		multiplebox.appendChild(eachContent);
 		eachContent.insertAdjacentHTML('beforeend', `<span class="each-content-card">記録カード</span> <textarea  name="texts" class="multiple-texts"></textarea>`);
-		eachContent.insertAdjacentHTML('beforeend', `<input type="file" name="files" class="multiple-images">`);
+		eachContent.insertAdjacentHTML('beforeend', `<label class="multiple-images-label"><input type="file" name="files" class="multiple-images">ファイルを選択</label><p>選択されていません</p>`);
 		eachContent.insertAdjacentHTML('beforeend', `<button type="button" class="btn-close close-each-content" aria-label="Close"></button>`);
 	}
 
