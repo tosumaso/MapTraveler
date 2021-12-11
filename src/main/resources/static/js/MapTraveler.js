@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	function closeContent() {
 		multiplebox.addEventListener('click', (e) => {
 			const ele = e.target;
-			if (ele.className === "btn-close close-each-content") {
+			if (ele.className === "btn-close close-each-content" && document.getElementsByClassName("each-content").length > 1) {
 				const eachContent = ele.parentNode;
 				multiplebox.removeChild(eachContent);
 			}

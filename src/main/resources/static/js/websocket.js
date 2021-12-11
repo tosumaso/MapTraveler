@@ -7,7 +7,6 @@ function connect() {
 	stompClient.connect({}, function(frame) {
 		stompClient.subscribe('/big/greetings', function(message) {
 			const record = JSON.parse(message.body);
-			console.log(record);
 			showGreeting(record);
 		});
 	});
@@ -32,7 +31,8 @@ function showGreeting(record) {
 	li.classList.add("compost");
 	combody.classList.add("combody");
 	cominfo.classList.add("cominfo");
-	combody.innerHTML = `<p>${record.content}</p>`;
+	const linebreak = record.content.replace(/\r?\n/g, '<br>');
+	combody.innerHTML = `<p>${linebreak}</p>`;
 	cominfo.innerHTML = `<p>
 		<span class="pe-3">${date}</span>
 		<span>${record.user.username}</span>
@@ -40,6 +40,7 @@ function showGreeting(record) {
 	li.appendChild(combody);
 	li.appendChild(cominfo);
 }
+
 
 (function() { //一番最初に処理される即時関数
 	document.querySelectorAll(".form-inline").forEach(target => {

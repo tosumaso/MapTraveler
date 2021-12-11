@@ -11,6 +11,7 @@ html {
 body {
 	background-color: #FFFFEE;
 	overflow-y:scroll;
+	height:100%;
 }
 
 body.fixed { /* モーダル画面を表示したときに後ろの背景をスクロールさせない*/
@@ -22,7 +23,6 @@ body.fixed { /* モーダル画面を表示したときに後ろの背景をス�
 
 textarea {
 	resize: none;
-	overflow: hidden;
 }
 
 span {

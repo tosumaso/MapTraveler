@@ -41,7 +41,7 @@
 						<div class="col-sm-6 col-xs-12">
 							<img class="image-list mx-auto d-block" th:src="${'data:image/png;base64,'+ base64List[i.index]}" alt="イメージが見当たりません">
 						</div>
-						<div class="col-sm-6 col-xs-12" th:text="${post.texts[i.index].content}"></div>
+						<div class="col-sm-6 col-xs-12" bld:brtext="${post.texts[i.index].content}"></div><!-- springで作成したthymeleafのダイアレクトを使用して改行を表す -->
 
 						<th:block th:if="${post.user.id != userId}">
 							<!-- postを投稿したユーザーではない場合いいねボタンを表示 -->
@@ -70,16 +70,17 @@
 			<form class="collapse form-inline mb-3" id="collapseExample">
 				<div class="form-group mb-3">
 					<input th:value="${post.id}" id="post-id" type="hidden"> <input th:value="${userId}" id="user-id" type="hidden"> <label class="control-label">コメント</label><span id="comment-alert">200文字以内にしてください</span>
-					<input type="text" id="comment" class="form-control" placeholder="ここにコメントを入力してください">
+					<!-- <input type="text" id="comment" class="form-control" placeholder="ここにコメントを入力してください"> -->
+					<textarea id="comment" class="form-control" placeholder="ここにコメントを入力してください"></textarea>
 				</div>
-				<button id="send-comment" class="btn btn-lg btn-block btn-secondary" type="submit">送信</button>
+				<button id="send-comment" class="btn btn-lg btn-block btn-secondary" type="button">送信</button>
 			</form>
 
 			<ul class="post-comments" id="greetings">
 				<th:block th:each="comment :${comments}" th:if="${comment.post.id == post.id}">
 					<li class="compost">
 						<div class="combody">
-							<p th:text="${comment.content}"></p>
+							<p bld:brtext="${comment.content}"></p>
 						</div>
 						<p class="cominfo">
 							<span th:text="${#temporals.format(comment.createdDate,'yyyy/MM/dd HH:mm:ss')}" class="pe-3"></span> <span th:text="${comment.user.username}"></span>
