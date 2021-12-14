@@ -2,15 +2,27 @@ package MapTraveler.develop.Form;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class PostForm {
 
+	@NotNull
 	private Double lat;
+	
+	@NotNull
 	private Double lng;
+	
+	@NotBlank
 	private String title;
+	
+	@NotNull
 	private Integer star;
+	
 	private List<String> texts;
+	
 	private List<MultipartFile> files; //複数の画像をList<MultipartFile>で取得
 	
 	

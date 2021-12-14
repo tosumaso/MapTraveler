@@ -5,17 +5,21 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
 import MapTraveler.develop.Auth.ApplicationUser;
@@ -56,7 +60,7 @@ public class MapTravelerController {
 	FavouriteRepository favouriteRepository;
 	
 	@GetMapping("/index")
-	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model) {
+	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
 		model.addAttribute("username", principal.getUsername()); //ユーザー名取得
 		return "index";
 	}
@@ -69,11 +73,17 @@ public class MapTravelerController {
 	}
 	
 	@PostMapping("/postMap") //マーカーを挿す座標とPostの内容を保存(複数の画像を保存する場合)
-	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal, PostForm form, Model model) {
+	public String postGoogle(@AuthenticationPrincipal ApplicationUser principal,@Valid PostForm postForm, BindingResult result, 
+			Model model, RedirectAttributes attributes) {
+		if (result.hasErrors()) {
+			//RedirectAttributes.addFlashAttribute("変数",値); リダイレクト先からモデルの変数を参照できる
+			attributes.addFlashAttribute("modalError","全ての空白を埋めてください"); 
+			return "redirect:/index";
+		}
 		try {
-			Map map = new Map(form.getLat(), form.getLng());
-			Post post = new Post(form.getTitle(), form.getStar());
-			List<MultipartFile> files = form.getFiles();
+			Map map = new Map(postForm.getLat(), postForm.getLng());
+			Post post = new Post(postForm.getTitle(), postForm.getStar());
+			List<MultipartFile> files = postForm.getFiles();
 			List<String> images = new ArrayList<String>();
 			for (MultipartFile file : files) { //複数の画像を保存、画像のバイナリデータをListにしてthymeleafで表示
 				String fileName = StringUtils.cleanPath(file.getOriginalFilename()); //画像のパスを正規化
@@ -83,7 +93,7 @@ public class MapTravelerController {
 				byte[] bytes = savedFile.getData(); //保存したImageエンティティのバイナリデータを取得
 			    images.add(Base64.getEncoder().encodeToString(bytes)); //バイナリデータを文字列にする
 			}
-			List<String> contents = form.getTexts();
+			List<String> contents = postForm.getTexts();
 			for (String content : contents) {
 				Text text = new Text(content);
 				text.setPost(post);
@@ -115,8 +125,9 @@ public class MapTravelerController {
 		model.addAttribute("base64List", base64List);
 		List<Boolean> favouriteFlag = new ArrayList<Boolean>();
 		for (int i=0; i < images.size(); i++) {
+			System.out.println(images.get(i).getId() + " " + post.getId() + " " +principal.getId());
 			favouriteRepository.findByImageAndPostAndUser(images.get(i), post, userRepository.findById(principal.getId()).get())
-			.ifPresentOrElse((f) -> favouriteFlag.add(false), () -> favouriteFlag.add(true));
+			.ifPresentOrElse((f) -> favouriteFlag.add(true), () -> favouriteFlag.add(false));
 		}
 		model.addAttribute("favouriteFlag", favouriteFlag);
 		model.addAttribute("comments", commentRepository.findAll()); //一覧画面取得時、メッセージの一覧を取得してhtmlに描画する
