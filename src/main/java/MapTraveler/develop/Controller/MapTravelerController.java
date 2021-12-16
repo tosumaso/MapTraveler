@@ -125,7 +125,6 @@ public class MapTravelerController {
 		model.addAttribute("base64List", base64List);
 		List<Boolean> favouriteFlag = new ArrayList<Boolean>();
 		for (int i=0; i < images.size(); i++) {
-			System.out.println(images.get(i).getId() + " " + post.getId() + " " +principal.getId());
 			favouriteRepository.findByImageAndPostAndUser(images.get(i), post, userRepository.findById(principal.getId()).get())
 			.ifPresentOrElse((f) -> favouriteFlag.add(true), () -> favouriteFlag.add(false));
 		}
@@ -160,7 +159,6 @@ public class MapTravelerController {
 	@ResponseBody
 	public List<Post> searchByKeyword(@RequestParam(name="keyword") String keyword) {
 		String escapedKeyword = HtmlUtils.htmlEscape(keyword);
-		System.out.println(escapedKeyword);
 		List<Post> posts = postRepository.findByKeywordLike(escapedKeyword);
 		return posts;
 	}
@@ -170,7 +168,7 @@ public class MapTravelerController {
 		User user = userRepository.findById(principal.getId()).get();
 		model.addAttribute("user", user); //ログインユーザー情報
 		List<String> images = new ArrayList<String>();
-		for (Post post: user.getPosts()) {
+		for (Post post: postRepository.findByUser(user.getId())) {
 			List<Image> image = post.getImages();
 			for (int i=0; i< image.size(); i++) {
 				String im = Base64.getEncoder().encodeToString(image.get(i).getData());

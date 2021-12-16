@@ -35,7 +35,7 @@ public class Image {
   @Column(name = "data", nullable=false)
   private byte[] data;
   
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
   private Post post;
   

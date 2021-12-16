@@ -2,6 +2,7 @@ package MapTraveler.develop.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Comment extends BaseTimeEntity{
 	@JsonManagedReference
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
 	private Post post;
 
