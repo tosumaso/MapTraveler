@@ -10,7 +10,9 @@ function initMap() {
 		zoom: 5.4,
 		center: japan,
 		keyboardShortcuts: false,
-		mapTypeControl: false
+		mapTypeControl: false,
+		streetViewControl: false,
+		fullscreenControl: false
 	}
 
 	const map = new google.maps.Map(mapEle, mapOpt);
