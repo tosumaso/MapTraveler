@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		eachContent.setAttribute("id", "card");
 		eachContent.setAttribute("draggable", "true");
 		multiplebox.appendChild(eachContent);
-		eachContent.insertAdjacentHTML('beforeend', `<span class="each-content-card">記録カード</span> <textarea  name="texts" class="multiple-texts"></textarea>`);
+		eachContent.insertAdjacentHTML('beforeend', `<span class="each-content-card">記録カード</span> <textarea  name="texts" class="multiple-texts" style="overflow:hidden;"></textarea>`);
 		eachContent.insertAdjacentHTML('beforeend', `<label class="multiple-images-label"><input type="file" name="files" class="multiple-images">ファイルを選択</label><p>選択されていません</p>`);
 		eachContent.insertAdjacentHTML('beforeend', `<button type="button" class="btn-close close-each-content" aria-label="Close"></button>`);
 	}

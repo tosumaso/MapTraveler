@@ -19,14 +19,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="post")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Post{
 
 	@Id
@@ -41,9 +38,10 @@ public class Post{
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-	@JsonManagedReference //PostがシリアライズしたときUserもシリアライズする(参照先のデータを持てる)
+	@JsonIgnore //PostがシリアライズしたときUserもシリアライズする(参照先のデータを持てる)
 	private User user;
 	
+	//fetch=FetchType.LAZYにするとシリアライズ時にMapのレコードを参照できない: EAGERにすると別の処理でn+1が起きる!!
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="map_id", referencedColumnName="id", nullable=false)
 	private Map map;

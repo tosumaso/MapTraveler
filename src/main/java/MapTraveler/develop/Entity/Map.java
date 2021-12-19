@@ -9,8 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="map")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Map {
 
 	@Id

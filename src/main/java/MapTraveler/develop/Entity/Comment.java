@@ -30,6 +30,7 @@ public class Comment extends BaseTimeEntity{
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+	@JsonManagedReference
 	private Post post;
 
 	public Integer getId() {

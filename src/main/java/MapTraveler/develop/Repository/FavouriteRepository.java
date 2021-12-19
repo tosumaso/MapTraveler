@@ -13,7 +13,11 @@ import MapTraveler.develop.Entity.User;
 
 public interface FavouriteRepository extends JpaRepository<Favourite, Integer>{
 	
-	@Query("select f from Favourite f left join fetch f.user left join fetch f.post left join fetch f.image where f.image =:image")
+	@Query("select f from Favourite f "
+			+ "left join fetch f.user "
+			+ "left join fetch f.post p "
+			+ "left join fetch f.image "
+			+ "where f.image =:image")
 	List<Favourite> findByImage(Image image);
 	
 

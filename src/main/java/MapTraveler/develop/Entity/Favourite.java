@@ -1,6 +1,7 @@
 package MapTraveler.develop.Entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,17 +19,17 @@ public class Favourite {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id", referencedColumnName="id")
 	@JsonManagedReference
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="post_id", referencedColumnName="id")
 	@JsonManagedReference
 	private Post post;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="image_id", referencedColumnName="id")
 	@JsonManagedReference
 	private Image image;
