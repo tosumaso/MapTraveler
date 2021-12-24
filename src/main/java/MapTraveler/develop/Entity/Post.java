@@ -41,7 +41,6 @@ public class Post{
 	@JsonIgnore //PostがシリアライズしたときUserもシリアライズする(参照先のデータを持てる)
 	private User user;
 	
-	//fetch=FetchType.LAZYにするとシリアライズ時にMapのレコードを参照できない: EAGERにすると別の処理でn+1が起きる!!
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="map_id", referencedColumnName="id", nullable=false)
 	private Map map;
