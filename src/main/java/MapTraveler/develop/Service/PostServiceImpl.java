@@ -22,6 +22,7 @@ import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Entity.Text;
 import MapTraveler.develop.Entity.User;
 import MapTraveler.develop.Form.PostForm;
+import MapTraveler.develop.Repository.CommentRepository;
 import MapTraveler.develop.Repository.FavouriteRepository;
 import MapTraveler.develop.Repository.ImageRepository;
 import MapTraveler.develop.Repository.MapRepository;
@@ -46,6 +47,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	FavouriteRepository favouriteRepository;
+	
+	@Autowired
+	CommentRepository commentRepository;
 
 	@Override
 	public Map saveMapPost(ApplicationUser principal, PostForm form) throws IOException {

@@ -22,8 +22,6 @@ import MapTraveler.develop.Entity.Map;
 import MapTraveler.develop.Entity.Post;
 import MapTraveler.develop.Form.DeleteFavouriteForm;
 import MapTraveler.develop.Form.PostForm;
-import MapTraveler.develop.Repository.PostRepository;
-import MapTraveler.develop.Repository.UserRepository;
 import MapTraveler.develop.Service.CommentService;
 import MapTraveler.develop.Service.FavouriteService;
 import MapTraveler.develop.Service.GetPostInfo;
@@ -45,13 +43,6 @@ public class MapTravelerController {
 	
 	@Autowired
 	FavouriteService favouriteService;
-
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	PostRepository postRepository;
-
 
 	@GetMapping("/index")
 	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
@@ -130,13 +121,14 @@ public class MapTravelerController {
 		model.addAttribute("images",info.getImages()); //ログインユーザーが投稿した画像
 		model.addAttribute("posts", info.getPosts()); //いいねに紐づいたpost
 		model.addAttribute("favouriteImages",info.getFavouriteImages()); //いいねに紐づいた画像が表示されるか確認する
-		return "mypage";
+		model.addAttribute("likes",info.getUser().getLikes());
+		return "/mypage";
 
 	}
 
 	@GetMapping("/practice")
 	public String getPractice() {
-		return "practice";
+		return "/practice";
 	}
 
 }

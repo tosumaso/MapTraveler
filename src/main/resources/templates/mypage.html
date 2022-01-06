@@ -78,7 +78,7 @@
 						<div class="tab-pane" id="like" role="tabpanel" aria-labelledby="item3-tab">
 							<div th:if="${#lists.isEmpty(favouriteImages)}" class="no-details">他のユーザーが投稿した画像にいいねを残そう!</div>
 							<th:block th:each="like, l : ${favouriteImages}" th:if="!${#lists.isEmpty(favouriteImages)}">
-								<a th:href="@{/getPostMap(id=${comment.post.id})}" class="mypage-link">
+								<a th:href="@{/getPostMap(id=${likes[l.index].post.id})}" class="mypage-link">
 									<div class="mypage-detail">
 										<div class="mypage-picwrap">
 											<img th:src="${'data:image/png;base64,'+ like}" alt="イメージが見当たりません">
