@@ -43,14 +43,14 @@ public class MapTravelerController {
 	
 	@Autowired
 	FavouriteService favouriteService;
-
+	
 	@GetMapping("/index")
-	public String getTest(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
+	public String getInde(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
 		model.addAttribute("username", principal.getUsername()); //ユーザー名取得
-		return "index";
+		return "/indexs";
 	}
 
-	@GetMapping("get/markers") //一覧画面を取得して1秒後にマーカー情報を取得してMapに表示するAjax処理
+	@GetMapping("/get/markers") //一覧画面を取得して1秒後にマーカー情報を取得してMapに表示するAjax処理
 	@ResponseBody
 	public List<Map> getMarkers() {
 		List<Map> markers = mapService.findAll();
@@ -68,8 +68,6 @@ public class MapTravelerController {
 		}
 		try {
 			Map map = postService.saveMapPost(principal, postForm);
-			model.addAttribute("images", map.getPost().getImages());
-			model.addAttribute("texts", map.getPost().getTexts());
 			return "redirect:/index";
 		} catch (Exception e) {
 			System.out.println(e);
@@ -91,7 +89,7 @@ public class MapTravelerController {
 		return "/post";
 	}
 
-	@GetMapping("send/Myfavourite")
+	@GetMapping("/send/Myfavourite")
 	@ResponseBody
 	public List<Favourite> countUpFavourite(@AuthenticationPrincipal ApplicationUser principal,
 			@RequestParam(name = "imageIndex") Integer imageIndex, @RequestParam(name = "postId") Integer postId) {
@@ -99,7 +97,7 @@ public class MapTravelerController {
 		return favourites;
 	}
 
-	@PostMapping("delete/Myfavourite")
+	@PostMapping("/delete/Myfavourite")
 	@ResponseBody
 	public List<Favourite> deleteFavourite(@RequestBody DeleteFavouriteForm form,
 			@AuthenticationPrincipal ApplicationUser principal) { //@RequestBody HttpRequestのbodyに含まれたJsonデータをFormオブジェクトと紐づける
@@ -122,13 +120,8 @@ public class MapTravelerController {
 		model.addAttribute("posts", info.getPosts()); //いいねに紐づいたpost
 		model.addAttribute("favouriteImages",info.getFavouriteImages()); //いいねに紐づいた画像が表示されるか確認する
 		model.addAttribute("likes",info.getUser().getLikes());
-		return "/mypage";
+		return "/mypages";
 
-	}
-
-	@GetMapping("/practice")
-	public String getPractice() {
-		return "/practice";
 	}
 
 }

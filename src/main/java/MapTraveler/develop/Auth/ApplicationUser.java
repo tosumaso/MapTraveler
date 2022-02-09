@@ -9,15 +9,31 @@ import MapTraveler.develop.Entity.User;
 
 public class ApplicationUser implements UserDetails{
 
-	private final Integer id;
-	private final String password;
-	private final String username;
+	private Integer id;
+	private String password;
+	private String username;
 	
+	
+	
+	public ApplicationUser() {
+		
+	}
+
 	public ApplicationUser(User user) {
 		this.id = user.getId();
 		this.password = user.getPassword();
 		this.username = user.getUsername();
 	}
+	
+	public static ApplicationUser of (User user) {
+		ApplicationUser userDetails = new ApplicationUser();
+	    if (null != user) {
+	        userDetails.username = user.getUsername();
+	        userDetails.password = user.getPassword();
+	        userDetails.id = user.getId();
+	    }
+	    return userDetails;
+	  }
 
 	public Integer getId() { //@AuthenticationPrincipalのユーザー情報からentityのIDを取得するためのgetter
 		return id;

@@ -17,8 +17,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 @Entity
 @Table(name = "image")
+@Builder
+@AllArgsConstructor
 public class Image {
 
   @Id

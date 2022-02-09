@@ -17,6 +17,13 @@ public class DeleteFavouriteForm {
 	public void setPostId(Integer postId) {
 		this.postId = postId;
 	}
-	
+	public DeleteFavouriteForm() {
+		super();
+	}
+	public DeleteFavouriteForm(Integer imageIndex, Integer postId) {
+		super();
+		this.imageIndex = imageIndex;
+		this.postId = postId;
+	}
 	
 }
