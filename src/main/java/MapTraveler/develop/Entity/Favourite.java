@@ -11,8 +11,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 @Entity
 @Table(name="favourite")
+@Builder
+@AllArgsConstructor
 public class Favourite {
 
 	@Id

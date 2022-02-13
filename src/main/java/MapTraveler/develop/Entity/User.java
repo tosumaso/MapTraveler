@@ -13,9 +13,14 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 
 @Entity
 @Table(name="user")
+@Builder
+@AllArgsConstructor
 public class User {
 	
 	@Id

@@ -26,6 +26,19 @@ public class PostForm {
 	private List<MultipartFile> files; //複数の画像をList<MultipartFile>で取得
 	
 	
+	
+	public PostForm(@NotNull Double lat, @NotNull Double lng, @NotBlank String title, @NotNull Integer star,
+			List<String> texts, List<MultipartFile> files) {
+		this.lat = lat;
+		this.lng = lng;
+		this.title = title;
+		this.star = star;
+		this.texts = texts;
+		this.files = files;
+	}
+	public PostForm() {
+
+	}
 	public Double getLat() {
 		return lat;
 	}

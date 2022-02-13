@@ -41,7 +41,8 @@
 						<div class="col-sm-6 col-xs-12">
 							<img class="image-list mx-auto d-block" th:src="${'data:image/png;base64,'+ base64List[i.index]}" alt="イメージが見当たりません">
 						</div>
-						<div class="col-sm-6 col-xs-12" bld:brtext="${post.texts[i.index].content}"></div><!-- springで作成したthymeleafのダイアレクトを使用して改行を表す -->
+						<div class="col-sm-6 col-xs-12" bld:brtext="${post.texts[i.index].content}"></div>
+						<!-- springで作成したthymeleafのダイアレクトを使用して改行を表す -->
 
 						<th:block th:if="${post.user.id != userId}">
 							<!-- postを投稿したユーザーではない場合いいねボタンを表示 -->
