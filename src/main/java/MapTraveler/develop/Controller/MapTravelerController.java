@@ -121,7 +121,7 @@ public class MapTravelerController {
 		model.addAttribute("favouriteImages",info.getFavouriteImages()); //いいねに紐づいた画像が表示されるか確認する
 		model.addAttribute("likes",info.getUser().getLikes());
 		return "/mypages";
-
+		
 	}
 
 }
