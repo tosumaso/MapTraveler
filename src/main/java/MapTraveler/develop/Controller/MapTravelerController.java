@@ -47,7 +47,7 @@ public class MapTravelerController {
 	@GetMapping("/index")
 	public String getInde(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
 		model.addAttribute("username", principal.getUsername()); //ユーザー名取得
-		return "/indexs";
+		return "indexs";
 	}
 
 	@GetMapping("/get/markers") //一覧画面を取得して1秒後にマーカー情報を取得してMapに表示するAjax処理
@@ -86,7 +86,7 @@ public class MapTravelerController {
 		model.addAttribute("base64List", info.getBase64List());
 		model.addAttribute("favouriteFlag", info.getFavouriteFlag());
 		model.addAttribute("comments", commentService.findAll());
-		return "/post";
+		return "post";
 	}
 
 	@GetMapping("/send/Myfavourite")
@@ -120,7 +120,7 @@ public class MapTravelerController {
 		model.addAttribute("posts", info.getPosts()); //いいねに紐づいたpost
 		model.addAttribute("favouriteImages",info.getFavouriteImages()); //いいねに紐づいた画像が表示されるか確認する
 		model.addAttribute("likes",info.getUser().getLikes());
-		return "/mypages";
+		return "mypages";
 		
 	}
 
