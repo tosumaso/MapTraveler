@@ -105,7 +105,7 @@ class MapTravelerControllerTest {
 		mockMvc.perform(get("/index").with(user(authUser)))
 				.andExpect(status().isOk())
 				.andExpect(model().attribute("username", "username1"))
-				.andExpect(view().name("/indexs"));
+				.andExpect(view().name("indexs"));
 	}
 
 	@Test
@@ -185,7 +185,7 @@ class MapTravelerControllerTest {
 				.andExpect(model().attributeExists("base64List"))
 				.andExpect(model().attributeExists("favouriteFlag"))
 				.andExpect(model().attributeExists("comments"))
-				.andExpect(view().name("/post"));
+				.andExpect(view().name("post"));
 	}
 
 	@Nested
@@ -262,6 +262,6 @@ class MapTravelerControllerTest {
 				.with(user(authUser)))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("user","images","posts","favouriteImages","likes"))
-		.andExpect(view().name("/mypages"));
+		.andExpect(view().name("mypages"));
 	}
 }
