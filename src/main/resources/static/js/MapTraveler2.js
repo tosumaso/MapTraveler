@@ -5,21 +5,22 @@ document.addEventListener("DOMContentLoaded", () => {
 	const times = document.querySelectorAll("#times");
 	const post = document.querySelector("#post-id");
 	const hearts = document.querySelectorAll(".fa-heart");
+	if (times.length !== 0) {
 
-	listImages.forEach((image, index) => {
-		image.addEventListener("click", async () => {
-			const result = await fetch(`send/Myfavourite?imageIndex=${index}&postId=${post.value}`);
-			const data = await result.json();
-			console.log(data);
-			hearts[index].classList.add("fas", "like-btn");
-			hearts[index].classList.remove("far");
-			times[index].innerHTML = data.length;
+		listImages.forEach((image, index) => {
+			image.addEventListener("click", async () => {
+				const result = await fetch(`send/Myfavourite?imageIndex=${index}&postId=${post.value}`);
+				const data = await result.json();
+				console.log(data);
+				hearts[index].classList.add("fas", "like-btn");
+				hearts[index].classList.remove("far");
+				times[index].innerHTML = data.length;
+			})
 		})
-	})
 
-	const likes = document.querySelectorAll(".like-toggle");
+		const likes = document.querySelectorAll(".like-toggle");
 
-	likes.forEach((like, index) => {
+		likes.forEach((like, index) => {
 			like.addEventListener("click", async () => {
 				const result = await fetch(`delete/Myfavourite`,
 					{
@@ -33,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
 				like.classList.remove("like-btn", "fas");
 				times[index].innerHTML = data.length;
 			})
-	})
+		})
+	}
 
 	//コメントの文字数制限
 	const commentInput = document.getElementById("comment");
