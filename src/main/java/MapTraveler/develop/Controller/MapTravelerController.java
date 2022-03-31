@@ -44,6 +44,11 @@ public class MapTravelerController {
 	@Autowired
 	FavouriteService favouriteService;
 	
+	@GetMapping("my-portfolio")
+	public String getPortfolio() {
+		return "portfolio";
+	}
+	
 	@GetMapping("/index")
 	public String getInde(@AuthenticationPrincipal ApplicationUser principal, Model model, PostForm postForm) {
 		model.addAttribute("username", principal.getUsername()); //ユーザー名取得

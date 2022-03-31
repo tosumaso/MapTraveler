@@ -117,7 +117,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>maptraveloer</finalName>
+		<finalName>maptraveler</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

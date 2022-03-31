@@ -1,0 +1,377 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css);
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+  letter-spacing: 0.8px;
+  word-break: break-all;
+}
+
+a {
+  color: #1ca9e3;
+  text-decoration: none;
+}
+
+span {
+  display: inline-block;
+}
+
+img, video, object {
+  max-width: 100%;
+  height: auto;
+  border: none;
+  vertical-align: bottom;
+}
+
+ul, li {
+  list-style: none;
+  padding-left:0px;
+}
+
+/*--------------------------------
+　全体
+---------------------------------*/
+
+#wrapper {
+  background-color: #DDFFFF;
+}
+
+.inner {
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+  border-bottom: 1px solid black;
+}
+
+#contents {
+  margin-top: 10px;
+}
+
+table{
+  text-align: center;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+  border-collapse: separate;
+  border: none;
+}
+
+th, td {
+	border: none;
+}
+
+/*--------------------------------
+　ヘッダー
+---------------------------------*/
+
+#header {
+  display: flex;
+  justify-content: center;
+  height: 300px;
+  align-items: center;
+  background: url(../images/ocean.jpg) center center;
+}
+
+#header .title {
+  text-align: center;
+}
+
+#header .logo-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 94px;
+  color: #fff;
+  line-height: 1;
+}
+
+/*--------------------------------
+　Section
+---------------------------------*/
+
+.section .inner {
+  padding: 40px 10px 10px 10px;
+}
+
+.section .section-title-block {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section .section-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.section .section-desc {
+  text-align: center;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.two-column-wrapper {
+  padding: 20px 40px;
+}
+
+.section-title-css{
+  margin-left: 12px;
+}
+
+/*--------------------------------
+　Latestworks
+---------------------------------*/
+
+#latestworks .two-column-image {
+  width: 48%;
+}
+
+#latestworks .two-column-desc {
+  width: 48%;
+}
+
+/*--------------------------------
+　WORKS
+---------------------------------*/
+
+#works .card {
+  margin-bottom: 50px;
+}
+
+#works .work-pic{
+  width: 100%;
+  text-align: center;
+  min-height: 0%;
+}
+
+#works .card-image {
+  margin-bottom: 8px;
+  max-height: 300px;
+  transition-duration: 0.2s;
+}
+
+#works .work-card{
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+}
+
+#works .card-caption {
+  text-align: center;
+  margin: auto;
+}
+
+#works .card-caption-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#works .card-caption-desc{
+	font-size: 16px;
+}
+
+#works .card-wrapper {
+  padding: 20px 0;
+}
+
+/*--------------------------------
+ SKILL
+---------------------------------*/
+
+#skill .card-wrapper {
+  margin: 0 auto;
+  padding: 0px 40px 20px;
+
+}
+
+#skill .card {
+  flex-basis: 100%;
+  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+#skill .skill-desc {
+  flex-basis: calc(100% - 75px - 30px);
+  text-align: center;
+  padding-bottom: 30px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+#skill .skill-desc-title {
+  font-size:26px;
+  padding: 24px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/*--------------------------------
+ Footer
+---------------------------------*/
+
+#footer {
+  background-color: #BBFFFF;
+}
+
+#footer .inner {
+  padding: 30px;
+}
+
+#footer .footer-link ul {
+  margin-bottom: 30px;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+}
+
+#footer .footer-link li {
+  font-size: 12px;
+  padding: 0 20px;
+}
+
+#footer .footer-link li a {
+  color: #fff;
+  font-weight: bold;
+}
+
+#footer .copyright {
+  font-size: 14px;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+#scroll-to-top {
+  position: fixed;
+	bottom: 10px;
+	right: 10px;
+	height: 50px;
+	width: 50px;
+	color: #FFF;
+	font-size: 32px;
+	background-color: #9E9E9E;
+	border: none;
+	border-radius: 50%;
+  outline: none;
+}
+
+#arrow{
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid #fff;
+  border-right: 3px solid #fff;
+  transform: rotate(-45deg);
+  margin-top: 5px;
+}
+
+/*media Queries
+----------------------------------------------------*/
+
+@media screen and (max-width: 767px) {
+  body {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  #header {
+    height: 200px;
+  }
+  #header .logo-title {
+    font-size: 56px;
+  }
+  #header .logo-name {
+    top: 0;
+    left: -30px;
+    font-size: 25px;
+  }
+  #header .logo-desc {
+    font-size: 11px;
+  }
+  #contents {
+    padding: 40px 0;
+  }
+  .section .inner {
+    padding: 30px 15px;
+  }
+  .section .section-title-block {
+    margin-bottom: 10px;
+  }
+  .section .section-title {
+    font-size: 36px;
+  }
+  #latestworks .two-column-wrapper {
+    width: 100%;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  #latestworks .two-column-image {
+    width: 90%;
+    margin: 0 auto 20px;
+  }
+  #latestworks .two-column-desc {
+    width: 100%;
+  }
+  #works .card {
+    width: 48%;
+  }
+  #works .card-caption-title, th, td{
+    font-size: 12px;
+  }
+  #works .card-caption-info {
+    font-size: 11px;
+  }
+  
+  #about .two-column-wrapper {
+    width: 100%;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  #about .two-column-image {
+    width: 50%;
+    margin: 0 auto 20px;
+  }
+  #about .two-column-desc {
+   width: 100%;
+ }
+
+  #skill .card-wrapper {
+    width: 100%;
+  }
+  #skill .card {
+    flex-basis: 100%;
+  }
+
+  #contact .contact-list ul {
+    width: 100%;
+  }
+  #contact .contact-list li {
+    flex-basis: 30%;
+  }
+  #contact .contact-list li img {
+    width: 30px;
+  }
+  #contact .contact-list-desc {
+    font-size: 12px;
+  }
+  #footer .inner {
+    padding: 20px 0;
+  }
+  #footer .footer-link li {
+    font-size: 10px;
+    padding: 0 10px;
+    margin-bottom: 5px;
+  }
+}
